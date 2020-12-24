@@ -78,18 +78,18 @@ export function meappend(elm, children) {
 }
 
 /**
- * Parses HTML text into a document fragment containing the new elements.
+ * Parses HTML text into an array containing the new elements.
  * @param {string} html The string to parse.
- * @returns {DocumentFragment} A doc fragment containing the elements parsed.
+ * @returns {HTMLElement[]} An array containing the new elements.
  */
 export function meparse(html) {
-    let frag      = new DocumentFragment();
+    let arr       = [];
     let div       = ecreate('div');
     div.innerHTML = html;
     for (let ch of div.children) {
-        frag.appendChild(ch);
+        arr.push(ch);
     }
-    return frag;
+    return arr;
 }
 
 /**

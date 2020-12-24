@@ -2,11 +2,19 @@
 
 <template>
     <style>
+        :host {
+            --background-color: red;
+        }
         header {
             width: 100%;
             height: 50px;
-            background-color: red;
+            background-color: var(--background-color);
         }
+        /*
+        slot[name=menu] {
+            color: magenta;
+        }
+        */
     </style>
     <header>
         <slot name="menu">Menu</slot>
