@@ -12,10 +12,9 @@ import scss             from './css/index.scss';
 import './js/app-bar.js';
 import './js/nav-bar.js';
 
-
-let icon   = ecreate('link', { rel: 'shortcut icon', href: favicon,
-                              type: 'image/jpg',       id: 'favicon'});
-let styles = ecreate('link', { rel: 'stylesheet',    href: scss});
+let icon    = ecreate('link', {rel  : 'shortcut icon', href : favicon,
+                               type : 'image/jpg',     id   : 'favicon'});
+let styles  = ecreate('link', {rel  : 'stylesheet',    href : scss});
 
 meappend(query('head'), [icon, styles]);
 
