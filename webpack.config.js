@@ -64,7 +64,7 @@ module.exports = [{
         new CleanWebpackPlugin(),
     ],
     devServer: {
-        contentBase: path.join(__dirname, 'platforms/webpack'),
+        contentBase: path.join(__dirname, 'www'), //'platforms/webpack'),
         compress: true,
         port: 8000
     },    

@@ -3,13 +3,18 @@
     app-bar {
         --background-color: blue;
     }
-    span {
-        color: magenta;
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
     }
+    /*
+    span[slot=left] {
+        color: magenta;
+        float:right; 
+    }
+    */
 </style>
 
-<app-bar>
-    <span slot="menu">MENU</span>
-</app-bar>
-
-<p>Hello, world!!</p>
+<nav-bar>
+    <img-button></img-button>
+</nav-bar>

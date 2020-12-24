@@ -1,5 +1,6 @@
 
 /**
+ * Set Attributes -
  * Sets attributes on an element.
  * @param {HTMLElement} elm     The element to set attributes on.
  * @param {Object}      attrs   An object of keys and values used to set 
@@ -12,6 +13,7 @@ export function setattrs(elm, attrs) {
 }
 
 /**
+ * Element Create -
  * Creates an element. 'attrs' is an optional argument used to set the 
  * attributes of the newly created element.
  * @param {string}   name     The name of the element to create (e.g. 'div').
@@ -32,6 +34,7 @@ export function ecreate(name, attrs=null, text=null) {
 }
 
 /**
+ * Query Selector -
  * Convenience function that uses elm.querySelector() to locate an element.
  * If 'root' isn't provided, 'document' is used as the root for the search.
  * @param {string}        selector   A selector string.
@@ -56,8 +59,8 @@ export function isIterable(obj) {
 }
 
 /**
- * Attaches a single element or a collection of elements as children to an 
- * element.
+ * Element Append -
+ * Attaches a single element as a child to an element.
  * @param {HTMLElement} elm     The element to attach new child elements to.
  * @param {HTMLElement} child   An HTMLElement, or an iterable holding 
  *                              elements.
@@ -67,6 +70,7 @@ export function eappend(elm, child) {
 }
 
 /**
+ * Multiple Element Append -
  * Adds multiple children to an element.
  * @param {HTMLElement} elm         The element to add multiple children to.
  * @param {Iterable}    children    An iterable containing HTML elements to add.
@@ -77,7 +81,25 @@ export function meappend(elm, children) {
     }
 }
 
+
 /**
+ * Element Parse - 
+ * Parses HTML and adds the newly created elements to a root element of type
+ * 'name'.
+ * @param {string}   html The HTML to parse into elements.
+ * @param {[string]} name The type of element that hosts the new elements.
+ *                        Defaults to 'div'.
+ * @returns {HTMLElement}   A new element of 'name' type hosting newly
+ *                          created elements from 'html'.
+ */
+export function eparse(html, name='div') {
+    let elm       = ecreate(name);
+    elm.innerHTML = html;
+    return elm;
+}
+
+/**
+ * Multiple Element Parse -
  * Parses HTML text into an array containing the new elements.
  * @param {string} html The string to parse.
  * @returns {HTMLElement[]} An array containing the new elements.
@@ -93,16 +115,13 @@ export function meparse(html) {
 }
 
 /**
- * Parses HTML and adds the newly created elements to a root element of type
- * 'name'.
- * @param {string}   html The HTML to parse into elements.
- * @param {[string]} name The type of element that hosts the new elements.
- *                        Defaults to 'div'.
- * @returns {HTMLElement}   A new element of 'name' type hosting newly
- *                          created elements from 'html'.
+ * Single Element Parse -
+ * Parses HTML text and returns the first element within it.
+ * @param {string} html The string to parse.
+ * @returns {HTMLElement} The first element from the parsed HTML.
  */
-export function eparse(html, name='div') {
-    let elm       = ecreate(name);
-    elm.innerHTML = html;
-    return elm;
+export function separse(html) {
+    let elm   = eparse(html);
+    let child = elm.children[0];
+    return child;
 }

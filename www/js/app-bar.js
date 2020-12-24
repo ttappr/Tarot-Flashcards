@@ -1,16 +1,13 @@
 
 import html             from './../html/app-bar.html';
 import {eappend, 
-        eparse, 
-        meappend, 
-        meparse, 
-        query}          from './utils';
+        separse}        from './utils';
 
 export class AppBar extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
-        let templ = meparse(html)[0];
+        let templ = separse(html);
         let cont  = templ.content.cloneNode(true);
         eappend(this.shadowRoot, cont);
     }
