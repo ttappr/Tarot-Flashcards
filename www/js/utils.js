@@ -49,6 +49,14 @@ export function query(selector, root=null) {
     }
 }
 
+export function mquery(selector, root=null) {
+    if (root !== null) {
+        return root.querySelectorAll(selector);
+    } else {
+        return document.querySelectorAll(selector);
+    }
+}
+
 /**
  * Reports whether an object is iterable or not.
  * @param {Object} obj The object to check.

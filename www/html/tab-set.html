@@ -1,0 +1,24 @@
+
+<template>
+    <style>
+        #tab-host {
+            height: 100%;
+            width: 100%;
+        }
+        #tab-host > div {
+            display: none;
+            height: 100%;
+            width: 100%;
+        }
+        #tab-host > .displayed { 
+            display: block;
+        }
+    </style>
+    <div id="tab-host">
+        <!-- 
+            A new div with a slot for each slotted element is added here. Hosted 
+            elements need to have a slot="<name>" attribute, which is used to 
+            name the new slots that reference them.
+        -->
+    </div>
+</template>

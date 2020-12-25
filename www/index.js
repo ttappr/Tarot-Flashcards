@@ -3,14 +3,17 @@ import {ecreate,
         meparse,
         eappend,
         meappend,
-        query}          from './js/utils.js';
+        query,
+        mquery}         from './js/utils.js';
 
 import favicon          from './img/sun.jpeg';
 import index            from './html/index-body.html';
 import scss             from './css/index.scss';
+import options          from './html/options.html';
 
 import './js/app-bar.js';
 import './js/nav-bar.js';
+import './js/tab-set.js';
 
 let icon    = ecreate('link', {rel  : 'shortcut icon', href : favicon,
                                type : 'image/jpg',     id   : 'favicon'});
@@ -20,6 +23,13 @@ meappend(query('head'), [icon, styles]);
 
 meappend(query('body'), meparse(index));
 
+// meappend(query('body'), meparse(options));
+let tabs = query('tab-set');
+
 query('nav-bar').onclick = (e) => {
-    console.info(e.target.hash);
-}
+    if (e.target.hash) {
+        console.info(e.target.hash);
+        tabs.display(e.target.hash.slice(1));
+    }
+};
+
