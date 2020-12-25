@@ -1,15 +1,12 @@
 
 import {ecreate,
         meparse,
-        eappend,
         meappend,
-        query,
-        mquery}         from './js/utils.js';
+        query}          from './js/utils.js';
 
 import favicon          from './img/sun.jpeg';
 import index            from './html/index-body.html';
 import scss             from './css/index.scss';
-import options          from './html/options.html';
 
 import './js/app-bar.js';
 import './js/nav-bar.js';

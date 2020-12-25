@@ -23,20 +23,25 @@ export class TabSet extends HTMLElement {
         eappend(shadow, content);
         let tabHost     = query('#tab-host', shadow);
         let hosted      = this.children;
+        let active      = this.getAttribute('active');
         this._tabs      = {};
         this._active    = null;
 
         // Create a div with a slot referencing each element residing in the 
         // light DOM.
         for (let elm of hosted) {
-            let slot = ecreate('slot', {name : elm.slot});
-            let div  = ecreate('div');
-            eappend(div, slot);
-            eappend(tabHost, div);
-            this._tabs[elm.slot] = [div, elm];
-            if (elm.classList.contains('active')) {
-                div.classList.add('active');
-                this._active = [div, elm];
+            let div  = this._tabs[elm.slot];
+            let slot = null;
+            if (!div) {
+                slot = ecreate('slot', {name : elm.slot});
+                div  = ecreate('div',  {name : elm.slot});
+                eappend(div, slot);
+                eappend(tabHost, div);
+                this._tabs[elm.slot] = div;
+                if (elm.slot === active) {
+                    div.classList.add('active');
+                    this._active = div;
+                }
             }
         }
     }
@@ -45,16 +50,17 @@ export class TabSet extends HTMLElement {
      * @param {string} name The slot name of the content to display.
      */
     display(name) {
-        let [div, elm] = this._tabs[name];
-        if (this._active !== null) {
-            let [adiv, aelm] = this._active;
-            adiv.classList.remove('active');
-            aelm.classList.remove('active');
-
+        let div = this._tabs[name];
+        if (div) {
+            if (this._active !== null) {
+                this._active.classList.remove('active');
+            }
+            div.classList.add('active');
+            this.setAttribute('active', name);
+            this._active = div;
+        } else {
+            throw new Error(`No slot with name "${name}" to display.`);
         }
-        div.classList.add('active');
-        elm.classList.add('active');
-        this._active = [div, elm];
     }
 }
 
