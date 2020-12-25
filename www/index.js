@@ -19,3 +19,7 @@ let styles  = ecreate('link', {rel  : 'stylesheet',    href : scss});
 meappend(query('head'), [icon, styles]);
 
 meappend(query('body'), meparse(index));
+
+query('nav-bar').onclick = (e) => {
+    console.info(e.target.hash);
+}

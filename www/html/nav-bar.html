@@ -2,17 +2,22 @@
 
     <style>
         :host {
-            --active-color: green;
+            --color: white;
+            --background-color: #333;
+            --active-color: white;
+            --active-background-color: #4CAF50;
+            --hover-color: black;
+            --hover-background-color: #DDD;
         }
         .topnav {
             overflow: hidden;
-            background-color: #333;
+            background-color: var(--background-color);
         }
 
         .topnav ::slotted(*), img {
             float: left;
             display: block;
-            color: #f2f2f2;
+            color: var(--color);
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
@@ -20,23 +25,22 @@
         }
 
         .topnav ::slotted(*:hover) {
-            background-color: #ddd;
-            color: black;
+            background-color: var(--hover-background-color);
+            color: var(--hover-color);
         }
 
         .topnav ::slotted(*.active) {
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--active-background-color);
+            color: var(--active-color);
         }
 
         .topnav .icon {
             display: none;
         }
         @media screen and (max-width: 600px) {
-            .topnav ::slotted(*:not(:first-child)) {
+            .topnav ::slotted(*:not(.active)) {
                 display: none;
             }
-
             .topnav img.icon {
                 float: right;
                 display: block;
@@ -60,9 +64,9 @@
         }
     </style>
 
-    <div class="topnav" id="myTopnav">
+    <div class="topnav" id="topnav">
         <slot></slot>
-        <img src="./../img/menu-white-18dp.svg" class="icon" id="burger"></img>
+        <img src="./../img/menu-white-18dp.svg" class="icon" id="menu"></img>
     </div>
 
 </template>
