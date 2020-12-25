@@ -49,6 +49,14 @@ export function query(selector, root=null) {
     }
 }
 
+/**
+ * Multi Query -
+ * A convenience function that calls .querySelectorAll() on the root (or
+ * document, if not provided).
+ * @param {string}      selector    A selector expression.
+ * @param {HTMLElement} root        The root of the selection.
+ * @returns {NodeList}  A node list with the selected elements.
+ */
 export function mquery(selector, root=null) {
     if (root !== null) {
         return root.querySelectorAll(selector);

@@ -11,25 +11,9 @@
         width: 100vw;
         font-family: Arial, Helvetica, sans-serif;
     }
-    #home {
+    tab-set, tab-set > div {
         height: 100%;
         width: 100%;
-        background-color: blue;
-    }
-    #card-of-day {
-        height: 100%;
-        width: 100%;
-        background-color: magenta;
-    }
-    #instructions {
-        height: 100%;
-        width: 100%;
-        background-color: aqua;
-    }
-    #options {
-        height: 100%;
-        width: 100%;
-        background-color: darkkhaki;
     }
 </style>
 
@@ -41,10 +25,18 @@
 </nav-bar>
 
 <tab-set>
-    <div id="home" slot="home" class="displayed">FLASH CARDS</div>
-    <div id="card-of-day" slot="card-of-day">CARD OF THE DAY</div>
-    <div id="instructions" slot="instructions">INSTRUCTIONS</div>
-    <div id="options" slot="options">OPTIONS</div>
+    <div slot="home" class="active">
+        FLASH CARDS
+    </div>
+    <div slot="card-of-day">
+        CARD OF THE DAY
+    </div>
+    <div slot="instructions">
+        INSTRUCTIONS
+    </div>
+    <div slot="options">
+        OPTIONS
+    </div>
 </tab-set>
 
 

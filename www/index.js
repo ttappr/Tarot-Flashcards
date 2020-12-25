@@ -23,12 +23,10 @@ meappend(query('head'), [icon, styles]);
 
 meappend(query('body'), meparse(index));
 
-// meappend(query('body'), meparse(options));
 let tabs = query('tab-set');
 
 query('nav-bar').onclick = (e) => {
     if (e.target.hash) {
-        console.info(e.target.hash);
         tabs.display(e.target.hash.slice(1));
     }
 };
