@@ -8,9 +8,11 @@ import favicon          from './img/sun.jpeg';
 import index            from './html/index-body.html';
 import scss             from './css/index.scss';
 
-import './js/app-bar.js';
 import './js/nav-bar.js';
 import './js/tab-set.js';
+import './js/card-deck.js';
+import './js/coach.js';
+import './js/app-options.js';
 
 let icon    = ecreate('link', {rel  : 'shortcut icon', href : favicon,
                                type : 'image/jpg',     id   : 'favicon'});

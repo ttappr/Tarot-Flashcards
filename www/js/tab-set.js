@@ -10,7 +10,9 @@ import html         from './../html/tab-set.html';
  * at a time. This class can work in conjunction with a nav-bar to display the
  * related content for the selected item. Content is added to the tab-set by
  * declaring them with a 'slot' attribute assigned the name that they're 
- * referred to using 'display().
+ * referred to using '.display(<slot-name>). A <div> element can be used to
+ * populate each named slot. It will be hosted in an internal div that fills
+ * the tab space.
  */
 export class TabSet extends HTMLElement {
     constructor() {
@@ -30,21 +32,23 @@ export class TabSet extends HTMLElement {
         // Create a div with a slot referencing each element residing in the 
         // light DOM.
         for (let elm of hosted) {
-            let div  = this._tabs[elm.slot];
-            let slot = null;
+            let name = elm.slot;
+            let div  = this._tabs[name];
             if (!div) {
-                slot = ecreate('slot', {name : elm.slot});
-                div  = ecreate('div',  {name : elm.slot});
+                let slot = ecreate('slot', {name : name});
+                    div  = ecreate('div',  {name : name});
                 eappend(div, slot);
                 eappend(tabHost, div);
-                this._tabs[elm.slot] = div;
-                if (elm.slot === active) {
+                this._tabs[name] = div;
+                if (name === active) {
                     div.classList.add('active');
                     this._active = div;
                 }
             }
         }
     }
+    // TODO - add code to watch the 'active' attribute.
+
     /**
      * Causes the content in the slot referenced by 'name' to be shown.
      * @param {string} name The slot name of the content to display.

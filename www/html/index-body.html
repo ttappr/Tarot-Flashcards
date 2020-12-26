@@ -14,6 +14,12 @@
     tab-set, tab-set > div {
         height: 100%;
         width: 100%;
+        background-color: yellow;
+        overflow: hidden; /* << */
+    }
+    app-options {
+        height: 100%;
+        width: 100%;
     }
 </style>
 
@@ -26,7 +32,9 @@
 
 <tab-set active="home">
     <div slot="home">
-        FLASH CARDS
+        <flashcard-coach>
+            <card-deck slot="deck"></card-deck>
+        </flashcard-coach>
     </div>
     <div slot="card-of-day">
         CARD OF THE DAY
@@ -35,7 +43,7 @@
         INSTRUCTIONS
     </div>
     <div slot="options">
-        OPTIONS
+        <app-options></app-options>
     </div>
 </tab-set>
 
