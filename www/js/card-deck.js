@@ -65,6 +65,8 @@ export class CardDeck extends HTMLElement {
         this._cards  = [];
         this._dcards = {};
         this._populateDeck();
+
+        this._cardBase = query('#card-base', this.shadowRoot);
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -99,7 +101,7 @@ export class CardDeck extends HTMLElement {
         let card = this.getCardByID(id);
         let img  = ecreate('img', { src: `./../img/${card.img}` });
         let p    = ecreate('p', null, card.meaning);
-        let base = query('#card-base', this.shadowRoot);
+        let base = this._cardBase;
         base.classList.remove('revealed');
         while (base.firstChild) {
             base.removeChild(base.lastChild);
@@ -111,8 +113,7 @@ export class CardDeck extends HTMLElement {
      * Causes the deck to reveal the back side of the flash card.
      */
     showBack() {
-        let base = query('#card-base', this.shadowRoot);
-        base.classList.add('revealed');
+        this._cardBase.classList.add('revealed');
     }
     /**
      * Returns the cards in a newly constructed array.
