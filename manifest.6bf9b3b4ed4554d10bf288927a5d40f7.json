@@ -1,0 +1,43 @@
+{
+  "icons": [
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_512x512.5eedb57bc1ff898fad6ca738f11aa333.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_384x384.f2dca17d2e8120f60c530711007c3d24.jpeg",
+      "sizes": "384x384",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_256x256.bd99473fa47c64f776d4a74c1d7d06ed.jpeg",
+      "sizes": "256x256",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_192x192.d8d7b6b350936cd82f2e0dcf574c86ee.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_128x128.9ba78020e66bcf7a8a3b67e7dfc42b91.jpeg",
+      "sizes": "128x128",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://ttappr.github.io/assets/icons/icon_96x96.6afb37d71d67d617be3ee4900f6c9068.jpeg",
+      "sizes": "96x96",
+      "type": "image/jpeg"
+    }
+  ],
+  "name": "Tarot Flashcards",
+  "short_name": "FlashTarot",
+  "orientation": "portrait",
+  "display": "minimal-ui",
+  "start_url": "/",
+  "description": "A simple flashcard app for memorizing Tarot card meanings.",
+  "background_color": "#01579b",
+  "theme_color": "#01579b",
+  "theme-color": "#01579b"
+}
