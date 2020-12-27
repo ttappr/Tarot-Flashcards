@@ -1,15 +1,42 @@
 
 <template name="deck">
     <style>
-        #card-base {
+        #card-base-host {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
             height: 100%;
             overflow: hidden;
         }
-        #card-base.show-back img p {
+        #card-base {
+            display: contents;
+            max-width: 400px;
+        }
+        #card-base.revealed {
+            display: block;
+        }
+        #card-base img  {
+            max-height: 100%;
             float: left;
+            margin: 15px;
+        }
+        #card-base.revealed img {
+            max-width: 50%;
+            max-height: 70%;
+        }
+        #card-base p {
+            display: none;
+            margin: 15px 15px 15px 0;
+        }
+        #card-base.revealed p {
+            display: block;
         }
     </style>
-    <div id="card-base">
+    <div id="card-base-host">
+        <div id="card-base">
+            <!-- img tag gets inserted here. -->
+            <!-- p tag gets inserted here. -->
+        </div>
     </div>
 </template>
 

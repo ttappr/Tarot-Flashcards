@@ -97,9 +97,11 @@ export class CardDeck extends HTMLElement {
      */
     showCard(id) {
         let card = this.getCardByID(id);
-        let img  = ecreate('img', { src: `./../img/${card.img}`, style: 'height: 50vh'});
-        let div  = query('div', this.shadowRoot);
-        eappend(div, img);
+        let img  = ecreate('img', { src: `./../img/${card.img}` });
+        let p    = ecreate('p', null, card.meaning);
+        let base = query('#card-base', this.shadowRoot);
+        eappend(base, img);
+        eappend(base, p);
     }
     /**
      * Causes the deck to reveal the back side of the flash card.
