@@ -29,11 +29,14 @@
             max-width: 45%;
             margin-right: 15px;
         }
-        #card-base p {
+        #card-base :not(img) {
             display: none;
         }
-        #card-base.revealed p {
+        #card-base.revealed :not(img) {
             display: block;
+        }
+        #card-base.revealed p > * {
+            display: inline;
         }
     </style>
     <div id="card-base-host">

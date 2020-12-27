@@ -5,6 +5,7 @@ import cardData     from './../data/card-data.json';
 import {eappend, 
     ecreate, 
         eparse, 
+        meappend, 
         meparse,
         query}    from './utils.js';
 
@@ -67,6 +68,8 @@ export class CardDeck extends HTMLElement {
         this._populateDeck();
 
         this._cardBase = query('#card-base', this.shadowRoot);
+
+        this.showCard('The_Magician');
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -98,16 +101,18 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to show.
      */
     showCard(id) {
-        let card = this.getCardByID(id);
-        let img  = ecreate('img', { src: `./../img/${card.img}` });
-        let p    = ecreate('p', null, card.meaning);
-        let base = this._cardBase;
+        let card    = this.getCardByID(id);
+        let img     = ecreate('img', { src: `./../img/${card.img}` });
+        let h3      = ecreate('h3', null, card.name);
+        let p       = ecreate('p');
+        let base    = this._cardBase;
+        p.innerHTML = card.meaning;
+
         base.classList.remove('revealed');
         while (base.firstChild) {
             base.removeChild(base.lastChild);
         }
-        eappend(base, img);
-        eappend(base, p);
+        meappend(base, [img, h3, p]);
     }
     /**
      * Causes the deck to reveal the back side of the flash card.

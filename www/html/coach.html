@@ -5,7 +5,7 @@
             height: 100%;
             width: 100%;
             display: grid;
-            grid-template-rows: 65% auto auto auto auto;
+            grid-template-rows: 65% auto;
         }
         #deck-panel {
             background-color: magenta;
@@ -14,17 +14,7 @@
     <div id="primary">
         <div id="deck-panel">
             <slot name="deck"></slot>
-            <!-- This is where to focus on forcing the deck's size 
-                 might have to use ::slotted() in the rules above to force
-                 it to fit in the rows. Within deck-panel, the image and text
-                 don't need tricky rules.. just use standard css to center
-                 the image when the back isn't show.. then shrink the image and
-                 float it left and have the text wrap around it.
-            -->
         </div>
-        <div>SLIDER</div>
-        <div>SLIDER</div>
-        <button>REVEAL</button>
-        <button>NEXT</button>
+        <div>WIDGET SPACE</div>
     </div>
 </template>
