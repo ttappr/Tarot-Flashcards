@@ -1,8 +1,8 @@
-const HtmlWebpackPlugin     = require('html-webpack-plugin');
-const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
-const path                  = require('path');
-const autoprefixer          = require('autoprefixer');
-const CopyWebpackPlugin     = require('copy-webpack-plugin');
+const HtmlWebpackPlugin         = require('html-webpack-plugin');
+const {CleanWebpackPlugin}      = require('clean-webpack-plugin');
+const path                      = require('path');
+const autoprefixer              = require('autoprefixer');
+const CopyWebpackPlugin         = require('copy-webpack-plugin');
 
 module.exports = [{
     entry: './www/index.js',
