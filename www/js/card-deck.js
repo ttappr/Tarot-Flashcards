@@ -3,7 +3,7 @@ import storage      from './persistent-storage.js';
 import html         from './../html/card-deck.html';
 import cardData     from './../data/card-data.json';
 import {eappend, 
-    ecreate, 
+        ecreate, 
         eparse, 
         meappend, 
         meparse,
@@ -17,6 +17,8 @@ const SUITS_QUASI   = ['Major Arcana', 'Reversals'];
 
 const DATA_FIELDS   = ['suit', 'value', 'ordinal', 'pic', 
                        'descr', 'meaning', 'reverse'];
+
+import magician from './../img/pictorial-key-to-the-tarot.004.jpg';
 
 /**
  * Represents a flash card in the deck. Essentially a "data class".
@@ -102,7 +104,8 @@ export class CardDeck extends HTMLElement {
      */
     showCard(id) {
         let card    = this.getCardByID(id);
-        let img     = ecreate('img', { src: `./../img/${card.img}` });
+        //let img     = ecreate('img', { src: `./../img/${card.img}` });
+        let img     = ecreate('img', { src: magician });
         let h3      = ecreate('h3', null, card.name);
         let p       = ecreate('p');
         let base    = this._cardBase;

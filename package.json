@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "A flashcard style application to help learn the meanings of the Rider-Waite-Smith Tarot deck.",
   "main": "index.js",
+  "homepage": "https://ttappr.github.io/Tarot-Flashcards/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "webpack serve --mode development",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d platforms/webpack"
   },
   "author": "tmtappr@gmail.com",
   "license": "ISC",
@@ -17,6 +20,7 @@
     "css-loader": "^5.0.1",
     "extract-loader": "^5.1.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.1.0",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.0",
     "postcss-loader": "^4.1.0",
