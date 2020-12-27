@@ -11,7 +11,7 @@
             padding: 15px;
             box-sizing: border-box;
         }
-        #card-base {
+        #card-base:not(.revealed) {
             display: contents;
         }
         #card-base.revealed {
@@ -21,6 +21,7 @@
             max-height: 500px;
         }
         #card-base img  {
+            object-fit: contain;
             float: left;
             height: auto;
             width: auto;
@@ -28,10 +29,13 @@
             max-width: 100%;
         }
         #card-base.revealed img {
+            object-fit: contain;
             max-width: 45%;
+            height: auto;
+            width: auto;
             margin-right: 15px;
         }
-        #card-base :not(img) {
+        #card-base:not(.revealed) :not(img) {
             display: none;
         }
         #card-base.revealed :not(img) {

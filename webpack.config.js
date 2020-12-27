@@ -2,6 +2,7 @@ const HtmlWebpackPlugin     = require('html-webpack-plugin');
 const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
 const path                  = require('path');
 const autoprefixer          = require('autoprefixer');
+const CopyWebpackPlugin     = require('copy-webpack-plugin');
 
 module.exports = [{
     entry: './www/index.js',
@@ -46,10 +47,8 @@ module.exports = [{
           ]
         },
         {
-            test: /\.(png|jpg|jpeg|gif|svg)$/,
-            use: [{
-                loader: 'file-loader'
-            }, ],
+            test: /\.(png|svg|jpg|jpeg|gif)$/i,
+            type: 'asset/resource',
         },
         {
             test: /\.html$/i,
@@ -62,6 +61,11 @@ module.exports = [{
             title: "Tarot Flashcards",
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: 'www/img', to: 'img'},
+            ],
+        }),
     ],
     devServer: {
         contentBase: path.join(__dirname, 'www'), //'platforms/webpack'),
