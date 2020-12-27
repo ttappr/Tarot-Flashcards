@@ -100,6 +100,10 @@ export class CardDeck extends HTMLElement {
         let img  = ecreate('img', { src: `./../img/${card.img}` });
         let p    = ecreate('p', null, card.meaning);
         let base = query('#card-base', this.shadowRoot);
+        base.classList.remove('revealed');
+        while (base.firstChild) {
+            base.removeChild(base.lastChild);
+        }
         eappend(base, img);
         eappend(base, p);
     }
@@ -107,7 +111,8 @@ export class CardDeck extends HTMLElement {
      * Causes the deck to reveal the back side of the flash card.
      */
     showBack() {
-
+        let base = query('#card-base', this.shadowRoot);
+        base.classList.add('revealed');
     }
     /**
      * Returns the cards in a newly constructed array.
