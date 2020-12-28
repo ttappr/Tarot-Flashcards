@@ -5,7 +5,8 @@ import {ecreate,
         eappend,
         query}          from './js/utils.js';
 
-import favicon          from './img/sun.jpeg';
+//import favicon          from './img/logo.png';
+import favicon          from './img/noun_ace of swords_2159393.png';
 import index            from './html/index-body.html';
 import scss             from './css/index.scss';
 
@@ -17,7 +18,7 @@ import './js/app-options.js';
 
 //let manifest = ecreate('link', { rel: 'manifest',      href: '/manifest.json'});
 let icon     = ecreate('link', { rel: 'shortcut icon', href: favicon,
-                                type: 'image/jpg',       id: 'favicon'});
+                                type: 'image/png',       id: 'favicon'});
 let styles   = ecreate('link', { rel: 'stylesheet',    href: scss});
 
 meappend(query('head'), [icon, styles]);
@@ -38,7 +39,8 @@ query('nav-bar').onclick = (e) => {
         navigator.serviceWorker.register('./service-worker.js', {
                 scope: '/Tarot-Flashcards/'
             })
-            .then(() => console.log('Service Worker registered successfully.'))
+            .then((reg) => console.log('Service Worker registered ' +
+                                       'successfully. Scope is ' + reg.scope))
             .catch(error => console.log('Service Worker registration failed:', 
                                         error));
     }
