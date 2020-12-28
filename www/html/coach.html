@@ -23,10 +23,11 @@
             justify-content: space-evenly;
             align-items: center;
             text-align: center;
+            padding: 15px;
         }
 
         .controller {
-            margin: 15px;
+            margin: 7px;
         }
 
         /* --- slider styles --- */
@@ -90,7 +91,7 @@
         </div>
         <div id="controller-panel">
             <!-- The sliders and buttons. -->
-            <div class="slidecontainer progress">
+            <div class="slidecontainer progress controller">
                 <progress value="32" max="100">32%</progress>
             </div>
             <div class="slidecontainer controller">
@@ -98,8 +99,8 @@
                         class="slider" id="myRange">
             </div>
             <div>
-                <button>Reveal</button>
-                <button>Next</button>
+                <button class="controller">Reveal</button>
+                <button class="controller">Next</button>
             </div>
         </div>
     </div>
