@@ -1,7 +1,8 @@
 
 <template>
     <style>
-        #primary {
+        /* --- Main containers --- */
+        #primary-view {
             height: 100%;
             width: 100%;
             display: grid;
@@ -10,11 +11,96 @@
         #deck-panel {
             background-color: magenta;
         }
+        .slidecontainer {
+            width: 100%;
+        }
+
+        /* --- Controller container --- */
+
+        #controller-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            text-align: center;
+        }
+
+        .controller {
+            margin: 15px;
+        }
+
+        /* --- slider styles --- */
+
+        .slider {
+            -webkit-appearance: none;
+            width: 300px;
+            height: 15px;
+            border-radius: 5px;
+            background-color: #d3d3d3;
+            outline: none;
+            /* opacity: 0.7; */
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+        progress {
+            height: 15px;
+            width: 300px;
+            border-radius: 5px;
+            outline: none;
+            overflow: hidden;
+            -webkit-appearance: none;
+        }
+        
+        progress::-webkit-progress-value {
+            background-color: #4CAF50;
+        }
+        progress::-webkit-progress-bar {
+            background-color: #d3d3d3;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 0 10px;
+        }
+
     </style>
-    <div id="primary">
+    <div id="primary-view">
         <div id="deck-panel">
+            <!-- Deck of cards goes in this slot. -->
             <slot name="deck"></slot>
         </div>
-        <div>WIDGET SPACE</div>
+        <div id="controller-panel">
+            <!-- The sliders and buttons. -->
+            <div class="slidecontainer progress">
+                <progress value="32" max="100">32%</progress>
+            </div>
+            <div class="slidecontainer controller">
+                <input type="range" min="1" max="100" value="50" 
+                        class="slider" id="myRange">
+            </div>
+            <div>
+                <button>Reveal</button>
+                <button>Next</button>
+            </div>
+        </div>
     </div>
 </template>

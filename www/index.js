@@ -16,7 +16,6 @@ import './js/card-deck.js';
 import './js/coach.js';
 import './js/app-options.js';
 
-//let manifest = ecreate('link', { rel: 'manifest',      href: '/manifest.json'});
 let icon     = ecreate('link', { rel: 'shortcut icon', href: favicon,
                                 type: 'image/png',       id: 'favicon'});
 let styles   = ecreate('link', { rel: 'stylesheet',    href: scss});

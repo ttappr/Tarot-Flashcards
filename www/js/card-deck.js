@@ -69,7 +69,8 @@ export class CardDeck extends HTMLElement {
 
         this._cardBase = query('#card-base', this.shadowRoot);
 
-        this.showCard('The_Magician');
+        this.showCard('Seven_of_Wands');
+        this.showBack();
     }
     /**
      * Populates the deck using the JSON file for card data.
