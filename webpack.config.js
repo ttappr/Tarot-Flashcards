@@ -104,7 +104,8 @@ module.exports = [{
     ],
     devServer: {
         contentBase: path.join(__dirname, 'platforms/webpack'),
-        publicPath: '/Tarot-Flashcards',
+        //conentBasePublicPath: '/Tarot-Flashcards/',
+        publicPath: '/Tarot-Flashcards/',
         compress: true,
         port: 8000
     },    
