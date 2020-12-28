@@ -34,7 +34,7 @@
   "name": "Tarot Flashcards",
   "short_name": "FlashTarot",
   "orientation": "portrait-primary",
-  "display": "fullscreen",
+  "display": "standalone",
   "start_url": "/Tarot-Flashcards/",
   "description": "A simple flashcard app for memorizing Tarot card meanings.",
   "background_color": "#01579b",
