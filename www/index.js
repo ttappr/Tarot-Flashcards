@@ -27,9 +27,9 @@ meappend(query('body'), meparse(index));
 let tabs = query('tab-set');
 
 query('nav-bar').onclick = (e) => {
-    if (e.target.hash) {
-        let option = e.target.hash.slice(1);
-        tabs.display(option);
+    let tab = e.target.getAttribute('data-tab-name');
+    if (tab) {
+        tabs.display(tab);
     }
 };
 

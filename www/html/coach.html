@@ -6,11 +6,11 @@
             height: 100%;
             width: 100%;
             display: grid;
-            grid-template-rows: 65% auto;
-        }
+            grid-template-rows: 60% auto;
+        }/*
         #deck-panel {
             background-color: magenta;
-        }
+        }*/
         .slidecontainer {
             width: 100%;
         }
@@ -34,7 +34,7 @@
 
         .slider {
             -webkit-appearance: none;
-            width: 300px;
+            width: 210px;
             height: 15px;
             border-radius: 5px;
             background-color: #d3d3d3;
@@ -52,19 +52,21 @@
             width: 25px;
             height: 25px;
             border-radius: 50%;
-            background: #4CAF50;
+            background: var(--primary-color);
             cursor: pointer;
+            border: none;
         }
         .slider::-moz-range-thumb {
             width: 25px;
             height: 25px;
             border-radius: 50%;
-            background: #4CAF50;
+            background: var(--primary-color);
             cursor: pointer;
+            border: none;
         }
         progress {
             height: 15px;
-            width: 300px;
+            width: 210px;
             border-radius: 5px;
             outline: none;
             overflow: hidden;
@@ -72,17 +74,55 @@
         }
         
         progress::-webkit-progress-value {
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
         }
         progress::-webkit-progress-bar {
             background-color: #d3d3d3;
         }
 
         button {
-            padding: 5px 10px;
-            margin: 0 10px;
+            padding: 10px 20px;
+            margin: 0 20px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            font-size: 17px;
         }
-
+        button:disabled {
+            opacity: 0.65;
+        }
+        button:focus {
+            outline: none;
+        }
+        button:active {
+            transform: translateY(2px);
+        }
+        .ripple {
+            background-position: center;
+            transition: background .8s;
+        }
+        .ripple:hover {
+            background: var(--primary-color) 
+                        radial-gradient(circle, transparent 1%, 
+                                        var(--primary-color-ripple) 1%) 
+                        center/15000%;
+        }
+        .ripple:active {
+            background-color: var(--primary-color-ripple);
+            background-size: 100%;
+            transition: background 0s;
+        }
+        @media (max-width: 370px) {
+            .slidecontainer input, .slidecontainer progress {
+                width: 150px;
+            }
+        }
+        @media (max-width: 300px) {
+            .slidecontainer span {
+                font-size: 12px;
+            }
+        }
     </style>
     <div id="primary-view">
         <div id="deck-panel">
@@ -90,17 +130,24 @@
             <slot name="deck"></slot>
         </div>
         <div id="controller-panel">
+            <span id="question">What is the meaning of this card?</span> 
+
             <!-- The sliders and buttons. -->
+            
             <div class="slidecontainer progress controller">
+                <span>Initiate</span>
                 <progress value="32" max="100">32%</progress>
+                <span>Sage</span>
             </div>
             <div class="slidecontainer controller">
+                <span>Stumped</span>
                 <input type="range" min="1" max="100" value="50" 
-                        class="slider" id="myRange">
+                        class="slider" id="progress">
+                <span>Certain</span>
             </div>
             <div>
-                <button class="controller">Reveal</button>
-                <button class="controller">Next</button>
+                <button id="reveal" class="controller ripple">Reveal</button>
+                <button id="next" class="controller ripple">Next</button>
             </div>
         </div>
     </div>

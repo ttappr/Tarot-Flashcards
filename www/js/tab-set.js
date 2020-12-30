@@ -47,7 +47,27 @@ export class TabSet extends HTMLElement {
             }
         }
     }
-    // TODO - add code to watch the 'active' attribute.
+
+    /**
+     * Returns an array of attributes to watch for changes. Supports only the
+     * 'active' attribute.
+     */
+    static get observedAttributes() {
+        return ['active'];
+    }
+
+    /**
+     * Supports changes to the 'active' attribute. This attribute sets which
+     * tab is currently displayed in the main div of the tab set.
+     * @param {string}  name        Name of the attribute.
+     * @param {string}  oldValue    Old val of the attr.
+     * @param {strng}   newValue    New val for the attr.
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'active' && oldValue !== newValue) {
+            this.display(newValue);
+        }
+    }
 
     /**
      * Causes the content in the slot referenced by 'name' to be shown.

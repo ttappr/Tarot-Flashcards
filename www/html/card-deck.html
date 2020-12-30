@@ -56,9 +56,200 @@
 
 <template name="config">
     <style>
-
+        #main-container {
+            display: flex;
+            flex-direction: column;
+        }
+        #include-controls {
+            display: inline-grid;
+            grid-template-columns: auto auto;
+            max-width: 500px;
+            padding: 10px 20px;
+            grid-gap: 20px 0;
+        }
+        .section-title {
+            margin: 20px 0 10px 0;
+        }
+        input[type=checkbox] {
+            height: 18px;
+            width: 18px;
+        }
+        #card-range {
+            padding: 10px 20px;
+        }
+        #txt-range {
+            width: 300px;
+            height: 25px;
+        }
+        #dropdown {
+            display: none;
+            position: absolute;
+            border: 1px solid black;
+            
+            width: 305px;
+            height: 400px;
+            z-index: 1;
+            
+            overflow-y: auto;
+        }
+        #card-range:focus-within #dropdown {
+            display: block;
+        }
     </style>
-    <div>
-        DECK CONFIG
+    <div id="main-container">
+        <span class="section-title">Include</span>
+        <div id="include-controls" class="controls">
+            <div>
+                <input id="cb-cups" type="checkbox">
+                <label for="cb-cups">Cups</label>
+            </div>
+            <div>
+                <input id="cb-wands" type="checkbox">
+                <label for="cb-wands">Wands</label>
+            </div>
+
+            <div>
+                <input id="cb-swords" type="checkbox">
+                <label for="cb-swords">Swords</label>
+            </div>
+
+            <div>
+                <input id="cb-pentacles" type="checkbox">
+                <label for="cb-pentacles">Pentacles</label>
+            </div>
+
+            <div>
+                <input id="cb-major" type="checkbox">
+                <label for="cb-major">Major Arcana</label>
+            </div>
+
+            <div>
+                <input id="cb-reversals" type="checkbox">
+                <label for="cb-reversals">Reversals</label>
+            </div>
+        </div>
+        <span class="section-title">Card Range</span>
+        <div id="card-range" class="controls">
+            <input id="txt-range" type="text" readonly>
+            <div id="dropdown" tabindex="0">
+                <table id="dropdown-table">
+                    <tr>
+                        <th>Order</th>
+                        <th>Minor</th>
+                        <th>Major</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td></td>
+                        <td>Fool</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Ace</td>
+                        <td>Magician</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>II</td>
+                        <td>High Priestess</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>III</td>
+                        <td>Empress</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>IV</td>
+                        <td>Emperor</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>V</td>
+                        <td>Hierophant</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>VI</td>
+                        <td>Lovers</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>VII</td>
+                        <td>Chariot</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>VIII</td>
+                        <td>Fortitude</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>IX</td>
+                        <td>Hermit</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>X</td>
+                        <td>Wheel of Fortune</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Page</td>
+                        <td>Justice</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Knight</td>
+                        <td>Hanged Man</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>Queen</td>
+                        <td>Death</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>King</td>
+                        <td>Temperance</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td></td>
+                        <td>Devil</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td></td>
+                        <td>Tower</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td></td>
+                        <td>Star</td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td></td>
+                        <td>Moon</td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td></td>
+                        <td>Sun</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td></td>
+                        <td>Judgement</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td></td>
+                        <td>World</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </template>

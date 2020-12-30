@@ -69,8 +69,8 @@ export class CardDeck extends HTMLElement {
 
         this._cardBase = query('#card-base', this.shadowRoot);
 
-        this.showCard('Seven_of_Wands');
-        this.showBack();
+        this.showCard('Ten_of_Wands');
+        //this.showBack();
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -136,6 +136,9 @@ export class CardDeck extends HTMLElement {
     getCardByID(id) {
         return this._dcards[id];
     }
+    get cardIDs() {
+        return Object.keys(this._dcards);
+    }
 }
 
 /**
@@ -151,6 +154,17 @@ export class CardDeckConfig extends HTMLElement {
         let shadow   = this.shadowRoot;
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
+
+        // Populate the range text box's dropdown list.
+        let ddTable = query('#dropdown-table', shadow);
+        let header  = ecreate('tr');
+        eappend(ddTable, header);
+        for (let colName of ['Order', 'Minor Arcana', 'Major Arcana']) {
+            eappend(header, ecreate('th', null, colName));
+        }
+        for (let i = 0; i < 22; i++) {
+            
+        }
     }
 }
 
