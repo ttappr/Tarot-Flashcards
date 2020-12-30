@@ -155,16 +155,6 @@ export class CardDeckConfig extends HTMLElement {
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
 
-        // Populate the range text box's dropdown list.
-        let ddTable = query('#dropdown-table', shadow);
-        let header  = ecreate('tr');
-        eappend(ddTable, header);
-        for (let colName of ['Order', 'Minor Arcana', 'Major Arcana']) {
-            eappend(header, ecreate('th', null, colName));
-        }
-        for (let i = 0; i < 22; i++) {
-            
-        }
     }
 }
 
