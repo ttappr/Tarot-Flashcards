@@ -1,11 +1,59 @@
 
+
+@import './meyerweb-reset';
+
 body {
     --primary-color: #4CAF50;
-    /* --primary-color: magenta; */
+    --primary-color: #ff7494;
     --secondary-color: #333;
 
     --primary-color-ripple: #71da74;
-    /* --primary-color-ripple: yellow;/* rgb(253, 165, 209); */
-    
+    --primary-color-ripple: rgb(209, 165, 184);
 }
+body {
+    background-color: #fffcf5;
+}
+
+/*  [[ Notes ]]
+
+    !The ITCSS layers are: 
+
+        * Settings  -   used with preprocessors and contain font, colors 
+                        definitions, etc.
+        * Tools     -   globally used mixins and functions. It’s important not 
+                        to output any CSS in the first 2 layers.
+        * Generic   -   reset and/or normalize styles, box-sizing definition, 
+                        etc. This is the first layer which generates actual CSS.
+        * Elements /
+          Base      -   styling for bare HTML elements (like H1, A, etc.). These
+                        come with default styling from the browser so we can 
+                        redefine them here.
+        * Objects   -   class-based selectors which define undecorated design 
+                        patterns, for example media object known from OOCSS
+        * Components-   specific UI components. This is where the majority of 
+                        our work takes place and our UI components are often 
+                        composed of Objects and Components.
+        ? Theme     -   If specific theming is needed, it's recommended to go
+                        here.
+        * Trumps /
+        * Utilities -   utilities and helper classes with ability to override 
+                        anything which goes before in the triangle, eg. hide 
+                        helper class
+
+    The structuring of S/CSS files and rules should flow from less 'specificity'
+    to greater specifity in some intuitive semantic fashion.
+
+    !BEM naming consists of Block, Element, Modifier. 
+    This is the format: <block>__<element>--<modifier>
+        <div class="container">
+            <button class="container__button">Maybe Press</button>
+            <button class="container__button container__button--accented">
+                Definitely Press
+            </button>
+        </div>
+
+    !Shadow DOM elements can be exposed to external styling by setting the 
+    'part' attribute of elements to a suitable name, then using ::part() in
+    external selectors. ::theme() is similar, but is more global in scope.
+ */
 

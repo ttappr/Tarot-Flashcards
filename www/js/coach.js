@@ -23,9 +23,10 @@ export class Coach extends HTMLElement {
         this._next.onclick      = this._onNext.bind(this);
 
         this._next.disabled     = true;
+        this._lastCardID        = null;
 
         setTimeout(() => {
-            this._cardIDs = this._deck.cardIDs;
+            this._onNext();
         });
     }
     _onReveal() {
@@ -36,10 +37,14 @@ export class Coach extends HTMLElement {
         this._reveal.disabled = true;
     }
     _onNext() {
-        let ids  = this._cardIDs;
+        let ids  = this._deck.filteredCardIDs;
         let nids = ids.length;
-        let rnd  = Math.floor(Math.random() * nids);
-        let id   = ids[rnd];
+        let id   = '';
+        do {
+            let rnd  = Math.floor(Math.random() * nids);
+                id   = ids[rnd];
+        } while (id === this._lastCardID && nids > 1);
+        this._lastCardID = id;
         this._deck.showCard(id);
         this._question.style.visibility = 'visible';
 

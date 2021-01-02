@@ -7,10 +7,12 @@ import {eappend,
         eparse, 
         meappend, 
         meparse,
-        query}    from './utils.js';
+        query,
+        mquery}     from './utils.js';
 
 const OPT_PREFIX    = 'deckconfig:';
-const OPT_FILTER    = 'filter:';
+const OPT_INCLUDE   = 'deckconfig:include';
+const OPT_RANGE     = 'deckconfig:range';
 
 const SUITS         = ['Cups', 'Swords', 'Wands', 'Pentacles'];
 const SUITS_QUASI   = ['Major Arcana', 'Reversals'];
@@ -67,10 +69,12 @@ export class CardDeck extends HTMLElement {
         this._dcards = {};
         this._populateDeck();
 
-        this._cardBase = query('#card-base', this.shadowRoot);
+        this._filter = {include: storage.data[OPT_INCLUDE], 
+                          range: storage.data[OPT_RANGE  ]};
 
-        this.showCard('Ten_of_Wands');
-        //this.showBack();
+        this._filteredCardIDs = this._filterIDs();
+
+        this._cardBase = query('#card-base', this.shadowRoot);
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -89,11 +93,17 @@ export class CardDeck extends HTMLElement {
      */
     _optionsUpdate(e) {
         if (e.detail.key.startsWith(OPT_PREFIX)) {
-            let [_, key] = e.detail.key.split(':');
-            let val      = e.detail.value;
+            let key = e.detail.key;
+            let val = e.detail.value;
             switch (key) {
-                case OPT_FILTER: break;
+                case OPT_INCLUDE:
+                    this._filter.include = val;
+                    break;
+                case OPT_RANGE:
+                    this._filter.range = val;
+                    break;
             }
+            this._filteredCardIDs = this._filterIDs();
         }
     }
     /**
@@ -139,6 +149,23 @@ export class CardDeck extends HTMLElement {
     get cardIDs() {
         return Object.keys(this._dcards);
     }
+    get filteredCardIDs() {
+        return this._filteredCardIDs;
+    }
+    _filterIDs() {
+        let ids   = [];
+        let range = this._filter.range;
+        let incl  = this._filter.include;
+        for (let card of this._cards) {
+            let suit = card.suit.toLowerCase().split(' ')[0];
+            let ord  = card.ordinal;
+            if ((range === null || (range.low <= ord && ord <= range.high)) &&
+                 (incl === null || incl[suit])) {
+                    ids.push(card.id);
+            }
+        }
+        return ids;
+    }
 }
 
 /**
@@ -154,7 +181,191 @@ export class CardDeckConfig extends HTMLElement {
         let shadow   = this.shadowRoot;
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
+        this._text   = query('#txt-range', shadow);
+        this._table  = query('#dropdown-table', shadow);
+        
+        this._range  = {low: 0, high: 21};
+        this._incl   = {cups: true, swords: true, wands: true, 
+                        pentacles: true, major: true, reversals: true};
 
+        let rows     = mquery('tr', this._table);
+        let cboxes   = mquery('input[type=checkbox]', shadow);
+
+        // Connect listeners to the range controls.
+        this._rows = [];
+        for (let i = 1; i < rows.length; i++) {
+            this._rows.push(rows[i]);
+            rows[i].onclick = this._onRowSelect.bind(this);
+        }
+
+        // Connect checkbox listeners.
+        this._cboxes = {};
+        for (let cb of cboxes) {
+            this._cboxes[cb.value] = cb;
+            cb.onclick = this._onIncludeClick.bind(this);
+        }
+
+        this._numCBoxesChecked = 0;
+        this._loadOptions();
+    }
+    _loadOptions() {
+        let include = storage.data[OPT_INCLUDE] || this._incl;
+        let range   = storage.data[OPT_RANGE]   || this._range;
+        for (let [key, val] of Object.entries(include)) {
+            this._cboxes[key].checked = val;
+            if (val && key !== 'reversals') {
+                this._numCBoxesChecked++;
+            }
+        }
+        this._selectRangeRows(range.low, range.high);
+        this._incl  = include;
+        this._range = range;
+        this._updateRangeAvailability();
+    }
+    _onIncludeClick(e) {
+        let cbox   = e.target;
+        let cbname = cbox.value;
+        let cbval  = cbox.checked;
+        let ncheck = this._numCBoxesChecked;
+        if (cbname != 'reversals') {
+            ncheck += cbval ? 1 : -1;
+        }
+        if (ncheck === 0) {
+            cbox.checked = true;
+            cbval = true;
+            ncheck = 1;
+            window.alert("At least one checkbox (other than Reversals) must " + 
+                         "be checked.");
+        }
+        this._incl[cbname] = cbval;
+        storage.data[OPT_INCLUDE] = this._incl;
+        this._numCBoxesChecked = ncheck;
+       
+        this._updateRangeAvailability();
+        let low  = this._range.low;
+        let high = this._range.high;
+        this._clearRangeTable();
+        this._selectRangeRows(low, high);
+    }
+    _updateRangeAvailability() {
+        let major = this._majorAvailable;
+        let minor = this._minorAvailable;
+        let i = 0;
+        for (let row of this._rows) {
+            let [ord, min, maj] = row.children;
+            if (major) {
+                maj.classList.remove('not-available');
+                if (i < 1 || i > 14) {
+                    ord.classList.remove('not-available');
+                }
+            } else {
+                maj.classList.add('not-available');
+                if (i < 1 || i > 14) {
+                    ord.classList.add('not-available');
+                }
+            }
+            if (minor) {
+                min.classList.remove('not-available');
+            } else {
+                min.classList.add('not-available');
+            }
+            i++;
+        }
+        let [ord, min, maj] = mquery('th', this._table);
+        if (major) {
+            maj.classList.remove('header-not-available');
+        } else {
+            maj.classList.add('header-not-available');
+        }
+        if (minor) {
+            min.classList.remove('header-not-available');
+        } else {
+            min.classList.add('header-not-available');
+        }
+        this._text.innerHTML = this._createRangeText();
+    }
+    get _minorAvailable() {
+        let incl = this._incl;
+        return incl.cups || incl.swords || incl.wands || incl.pentacles;
+    }
+    get _majorAvailable() {
+        return this._incl.major;
+    }
+    _onRowSelect(e) {
+        let row   = e.currentTarget;
+        let range = this._range;
+        let ord   = Number.parseInt(row.getAttribute('data-ordinal'));
+        if (!this._majorAvailable && (ord < 1 || ord > 14)) {
+            return;
+        }
+        if (range.high === -1) {
+            this._selectRangeRows(ord, ord)
+        } else if (range.low == range.high) {
+            this._selectRangeRows(range.low, ord);
+        } else {
+            this._clearRangeTable();
+            this._selectRangeRows(ord, ord);
+        }
+    }
+    _clearRangeTable() {
+        let range = this._range;
+        let rows  = this._rows;
+        for (let i = range.low; i <= range.high; i++) {
+            rows[i].classList.remove('selected');
+        }
+        range.low  = -1;
+        range.high = -1;
+    }
+    _selectRangeRows(start, end) {
+        let low  = Math.min(start, end);
+        let high = Math.max(start, end);
+        
+        if (!this._majorAvailable) {
+            if (low < 1) {
+                low = 1;
+            }
+            if (high < 1) {
+                high = 1;
+            }
+            if (low > 14) {
+                low = 14;
+            }
+            if (high > 14) {
+                high = 14;
+            }
+        }
+
+        for (let i = low; i <= high; i++) {
+            this._rows[i].classList.add('selected');
+        }
+        this._range.low  = low;
+        this._range.high = high;        
+        this._text.innerHTML = this._createRangeText();
+
+        storage.data[OPT_RANGE] = this._range;
+    }
+    _createRangeText() {
+        let loTxt = this._getRowText(this._rows[this._range.low ]);
+        let hiTxt = this._getRowText(this._rows[this._range.high]);
+        if (loTxt !== hiTxt) {
+            return `${loTxt} <b>to</b> ${hiTxt}`;
+        } else {
+            return `${loTxt}`;
+        }
+    }
+    _getRowText(row) {
+        let a = [];
+        let ch = row.children;
+        for (let i = 0; i < 3; i++) {
+            let t = ch[i].textContent.trim();
+            if (t !== '' && ((i == 1 && this._minorAvailable) || 
+                             (i == 2 && this._majorAvailable) ||
+                             (i == 0))) {
+                a.push(t);
+            }
+        }
+        return `<b>${a[0]}</b> ` +
+               `<i>(${a.slice(1).join(', ')})</i>`;
     }
 }
 

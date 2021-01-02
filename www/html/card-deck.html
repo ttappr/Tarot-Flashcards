@@ -17,6 +17,7 @@
         #card-base.revealed {
             display: block;
             height: 100%;
+            width: 100%;
             max-width: 600px;
             max-height: 500px;
         }
@@ -58,11 +59,20 @@
     <style>
         #main-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+        }
+        @media (max-width: 600px) {
+            #main-container {
+                flex-direction: column;
+            }
+        }
+        .control-topic {
+            flex: 50%;
         }
         #include-controls {
             display: inline-grid;
             grid-template-columns: auto auto;
+            width: 100%;
             max-width: 500px;
             padding: 10px 20px;
             grid-gap: 20px 0;
@@ -76,179 +86,236 @@
         }
         #card-range {
             padding: 10px 20px;
+            width: 100%;
         }
         #txt-range {
             width: 300px;
-            height: 25px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 6px;
+            box-sizing: border-box;
+            cursor: default;
+            background-color: white;
         }
         #dropdown {
             display: none;
             position: absolute;
             border: 1px solid black;
-            
-            width: 305px;
-            height: 400px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            width: 300px;
+            /* height: 500px; */
             z-index: 1;
+            cursor: default;
+            max-height: 50vh;
+            background-color: white;
             
             overflow-y: auto;
+        }
+        @media (min-width: 600px) {
+            #dropdown {
+                max-height: 58vh;
+            }
         }
         #card-range:focus-within #dropdown {
             display: block;
         }
+        table {
+            width: 100%;
+            text-align: left;
+            border: none !important;
+        }
+        td, th, tr {
+            border: none !important;
+        }
+        th {
+            position: sticky;
+            top: 0;
+            background-color: var(--secondary-color);
+            color: white;
+            z-index: 2;
+        }
+        table .selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .help-icon {
+            opacity: .25;
+        }
+        .not-available {
+            opacity: .33;
+        }
+        .header-not-available {
+            color: gray;
+        }
     </style>
     <div id="main-container">
-        <span class="section-title">Include</span>
-        <div id="include-controls" class="controls">
-            <div>
-                <input id="cb-cups" type="checkbox">
-                <label for="cb-cups">Cups</label>
+        <div class="control-topic">
+            <div class="section-title">
+                <span>Include</span>
+                <img class="help-icon" src="./../img/help-black-18dp.svg" />
             </div>
-            <div>
-                <input id="cb-wands" type="checkbox">
-                <label for="cb-wands">Wands</label>
-            </div>
+            <div id="include-controls" class="controls">
+                <div>
+                    <input id="cb-cups" value="cups" type="checkbox">
+                    <label for="cb-cups">Cups</label>
+                </div>
+                <div>
+                    <input id="cb-wands" value="wands" type="checkbox">
+                    <label for="cb-wands">Wands</label>
+                </div>
 
-            <div>
-                <input id="cb-swords" type="checkbox">
-                <label for="cb-swords">Swords</label>
-            </div>
+                <div>
+                    <input id="cb-swords" value="swords" type="checkbox">
+                    <label for="cb-swords">Swords</label>
+                </div>
 
-            <div>
-                <input id="cb-pentacles" type="checkbox">
-                <label for="cb-pentacles">Pentacles</label>
-            </div>
+                <div>
+                    <input id="cb-pentacles" value="pentacles" type="checkbox">
+                    <label for="cb-pentacles">Pentacles</label>
+                </div>
 
-            <div>
-                <input id="cb-major" type="checkbox">
-                <label for="cb-major">Major Arcana</label>
-            </div>
+                <div>
+                    <input id="cb-major" value="major" type="checkbox">
+                    <label for="cb-major">Major Arcana</label>
+                </div>
 
-            <div>
-                <input id="cb-reversals" type="checkbox">
-                <label for="cb-reversals">Reversals</label>
+                <div>
+                    <input id="cb-reversals" value="reversals" type="checkbox">
+                    <label for="cb-reversals">Reversals</label>
+                </div>
             </div>
         </div>
-        <span class="section-title">Card Range</span>
-        <div id="card-range" class="controls">
-            <input id="txt-range" type="text" readonly>
-            <div id="dropdown" tabindex="0">
-                <table id="dropdown-table">
-                    <tr>
-                        <th>Order</th>
-                        <th>Minor</th>
-                        <th>Major</th>
-                    </tr>
-                    <tr>
-                        <td>0</td>
-                        <td></td>
-                        <td>Fool</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Ace</td>
-                        <td>Magician</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>II</td>
-                        <td>High Priestess</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>III</td>
-                        <td>Empress</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>IV</td>
-                        <td>Emperor</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>V</td>
-                        <td>Hierophant</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>VI</td>
-                        <td>Lovers</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>VII</td>
-                        <td>Chariot</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>VIII</td>
-                        <td>Fortitude</td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>IX</td>
-                        <td>Hermit</td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>X</td>
-                        <td>Wheel of Fortune</td>
-                    </tr>
-                    <tr>
-                        <td>11</td>
-                        <td>Page</td>
-                        <td>Justice</td>
-                    </tr>
-                    <tr>
-                        <td>12</td>
-                        <td>Knight</td>
-                        <td>Hanged Man</td>
-                    </tr>
-                    <tr>
-                        <td>13</td>
-                        <td>Queen</td>
-                        <td>Death</td>
-                    </tr>
-                    <tr>
-                        <td>14</td>
-                        <td>King</td>
-                        <td>Temperance</td>
-                    </tr>
-                    <tr>
-                        <td>15</td>
-                        <td></td>
-                        <td>Devil</td>
-                    </tr>
-                    <tr>
-                        <td>16</td>
-                        <td></td>
-                        <td>Tower</td>
-                    </tr>
-                    <tr>
-                        <td>17</td>
-                        <td></td>
-                        <td>Star</td>
-                    </tr>
-                    <tr>
-                        <td>18</td>
-                        <td></td>
-                        <td>Moon</td>
-                    </tr>
-                    <tr>
-                        <td>19</td>
-                        <td></td>
-                        <td>Sun</td>
-                    </tr>
-                    <tr>
-                        <td>20</td>
-                        <td></td>
-                        <td>Judgement</td>
-                    </tr>
-                    <tr>
-                        <td>21</td>
-                        <td></td>
-                        <td>World</td>
-                    </tr>
-                </table>
+        <div class="control-topic">
+            <div class="section-title">
+                <span>Card Range</span>
+                <img class="help-icon" src="./../img/help-black-18dp.svg" />
+            </div>
+            <div id="card-range" class="controls">
+                <div id="txt-range" tabindex="0"></div>
+                <div id="dropdown" tabindex="0">
+                    <table id="dropdown-table" cellspacing="0" cellpadding="8">
+                        <tr data-ordinal="-1">
+                            <th>Order</th>
+                            <th>Minor</th>
+                            <th>Major</th>
+                        </tr>
+                        <tr data-ordinal="0">
+                            <td>0</td>
+                            <td></td>
+                            <td>Fool</td>
+                        </tr>
+                        <tr data-ordinal="1">
+                            <td>1</td>
+                            <td>Ace</td>
+                            <td>Magician</td>
+                        </tr>
+                        <tr data-ordinal="2">
+                            <td>2</td>
+                            <td>II</td>
+                            <td>High Priestess</td>
+                        </tr>
+                        <tr data-ordinal="3">
+                            <td>3</td>
+                            <td>III</td>
+                            <td>Empress</td>
+                        </tr>
+                        <tr data-ordinal="4">
+                            <td>4</td>
+                            <td>IV</td>
+                            <td>Emperor</td>
+                        </tr>
+                        <tr data-ordinal="5">
+                            <td>5</td>
+                            <td>V</td>
+                            <td>Hierophant</td>
+                        </tr>
+                        <tr data-ordinal="6">
+                            <td>6</td>
+                            <td>VI</td>
+                            <td>Lovers</td>
+                        </tr>
+                        <tr data-ordinal="7">
+                            <td>7</td>
+                            <td>VII</td>
+                            <td>Chariot</td>
+                        </tr>
+                        <tr data-ordinal="8">
+                            <td>8</td>
+                            <td>VIII</td>
+                            <td>Fortitude</td>
+                        </tr>
+                        <tr data-ordinal="9">
+                            <td>9</td>
+                            <td>IX</td>
+                            <td>Hermit</td>
+                        </tr>
+                        <tr data-ordinal="10">
+                            <td>10</td>
+                            <td>X</td>
+                            <td>Wheel of Fortune</td>
+                        </tr>
+                        <tr data-ordinal="11">
+                            <td>11</td>
+                            <td>Page</td>
+                            <td>Justice</td>
+                        </tr>
+                        <tr data-ordinal="12">
+                            <td>12</td>
+                            <td>Knight</td>
+                            <td>Hanged Man</td>
+                        </tr>
+                        <tr data-ordinal="13">
+                            <td>13</td>
+                            <td>Queen</td>
+                            <td>Death</td>
+                        </tr>
+                        <tr data-ordinal="14">
+                            <td>14</td>
+                            <td>King</td>
+                            <td>Temperance</td>
+                        </tr>
+                        <tr data-ordinal="15">
+                            <td>15</td>
+                            <td></td>
+                            <td>Devil</td>
+                        </tr>
+                        <tr data-ordinal="16">
+                            <td>16</td>
+                            <td></td>
+                            <td>Tower</td>
+                        </tr>
+                        <tr data-ordinal="17">
+                            <td>17</td>
+                            <td></td>
+                            <td>Star</td>
+                        </tr>
+                        <tr data-ordinal="18">
+                            <td>18</td>
+                            <td></td>
+                            <td>Moon</td>
+                        </tr>
+                        <tr data-ordinal="19">
+                            <td>19</td>
+                            <td></td>
+                            <td>Sun</td>
+                        </tr>
+                        <tr data-ordinal="20">
+                            <td>20</td>
+                            <td></td>
+                            <td>Judgement</td>
+                        </tr>
+                        <tr data-ordinal="21">
+                            <td>21</td>
+                            <td></td>
+                            <td>World</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

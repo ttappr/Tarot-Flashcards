@@ -13,9 +13,10 @@ const DELETE_EVENT_TYPE = 'storagedelete';
 class PersistentStorage extends EventTarget {
     constructor() {
         super();
-        this._accessor = new Proxy({}, { get: this._get, 
-                                         set: this._set,
-                                         deleteProperty: this._del });
+        this._accessor = new Proxy({}, { get: this._get.bind(this), 
+                                         set: this._set.bind(this),
+                                         deleteProperty: 
+                                            this._del.bind(this) });
     }
     get UPDATE_EVENT_TYPE() {
         return UPDATE_EVENT_TYPE;
@@ -27,16 +28,17 @@ class PersistentStorage extends EventTarget {
         return this._accessor;
     }
     _get(_, key) {
-        return window.localStorage.getItem(key);
+        return JSON.parse(window.localStorage.getItem(key));
     }
     _set(_, key, value) {
-        window.localStorage.setItem(key, value);
+        window.localStorage.setItem(key, JSON.stringify(value));
 
         let opts = { bubbles : false, 
                      detail  : { key   : key, 
                                  value : value }
                     };
         this.dispatchEvent(new CustomEvent(UPDATE_EVENT_TYPE, opts));
+        return true;
     }
     _del(_, key) {
         window.localStorage.removeItem(key);
