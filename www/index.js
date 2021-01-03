@@ -13,7 +13,7 @@ import scss             from './css/index.scss';
 import './js/nav-bar.js';
 import './js/tab-set.js';
 import './js/card-deck.js';
-import './js/coach.js';
+import './js/flashcard-coach.js';
 import './js/app-options.js';
 
 let icon     = ecreate('link', { rel: 'shortcut icon', href: favicon,
@@ -33,14 +33,17 @@ query('nav-bar').onclick = (e) => {
     }
 };
 
-(function () {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js', {
-                scope: '/Tarot-Flashcards/'
-            })
-            .then((reg) => console.log('Service Worker registered ' +
-                                       'successfully. Scope is ' + reg.scope))
-            .catch(error => console.log('Service Worker registration failed:', 
-                                        error));
+(async function () {
+    try {
+        if ('serviceWorker' in navigator) {
+            let reg = await navigator.serviceWorker.register(
+                                './service-worker.js',
+                                { scope: '/Tarot-Flashcards/' }
+                            );
+            console.log('Service Worker registered successfully. ' +
+                        'Scope is ' + reg.scope);
+        }
+    } catch (error) {
+        console.log('Service Worker registration failed: ', error);
     }
 })();

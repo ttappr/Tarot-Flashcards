@@ -1,14 +1,25 @@
 
 <template>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;            
+        }
+
         #tab-host {
             height: 100%;
             width: 100%;
+            overflow: hidden;
         }
         #tab-host > div {
             display: none;
             height: 100%;
             width: 100%;
+            overflow: hidden;
         }
         #tab-host > .active { 
             display: block;

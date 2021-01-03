@@ -1,6 +1,14 @@
 <template>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;            
+        }
         :host {
             --color: white;
             --background-color: var(--secondary-color);
@@ -21,7 +29,7 @@
             text-align: center;
             padding: 14px 16px !important;
             text-decoration: none;
-            font-size: 17px;
+            font-size: 18px !important;
         }
 
         .topnav ::slotted(*:hover) {

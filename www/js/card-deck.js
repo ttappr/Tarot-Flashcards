@@ -8,7 +8,10 @@ import {eappend,
         meappend, 
         meparse,
         query,
-        mquery}     from './utils.js';
+        mquery,
+        cappend,
+        rmclass,
+        addclass}     from './utils.js';
 
 const OPT_PREFIX    = 'deckconfig:';
 const OPT_INCLUDE   = 'deckconfig:include';
@@ -65,6 +68,12 @@ export class CardDeck extends HTMLElement {
         let template = meparse(html)[0];
         eappend(shadow, template.content.cloneNode(true));
 
+        this._deckFrame      = query('#deck-frame',   shadow);
+        this._cardImageElm   = query('#image-frame',  shadow);
+        this._cardNameElm    = query('#card-name',    shadow);
+        this._cardMeaningElm = query('#card-meaning', shadow);
+        this._cardHiddenElm  = query('#card-info',    shadow);
+
         this._cards  = [];
         this._dcards = {};
         this._populateDeck();
@@ -112,24 +121,22 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to show.
      */
     showCard(id) {
-        let card    = this.getCardByID(id);
-        let img     = ecreate('img', { src: `./img/${card.img}` });
-        let h3      = ecreate('h3', null, card.name);
-        let p       = ecreate('p');
-        let base    = this._cardBase;
-        p.innerHTML = card.meaning;
+        let card = this.getCardByID(id);
+        let img  = ecreate('img', {   src: `./img/${card.img}`,
+                                    class: 'deck__card-face-image' });
 
-        base.classList.remove('revealed');
-        while (base.firstChild) {
-            base.removeChild(base.lastChild);
-        }
-        meappend(base, [img, h3, p]);
+        rmclass(this._deckFrame, 'deck__frame--reveal-info');
+
+        this._cardNameElm.innerHTML    = card.name;
+        this._cardMeaningElm.innerHTML = card.meaning;
+        
+        cappend(this._cardImageElm, img);
     }
     /**
      * Causes the deck to reveal the back side of the flash card.
      */
     showBack() {
-        this._cardBase.classList.add('revealed');
+        addclass(this._deckFrame, 'deck__frame--reveal-info');
     }
     /**
      * Returns the cards in a newly constructed array.

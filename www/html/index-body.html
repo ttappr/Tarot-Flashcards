@@ -5,6 +5,15 @@
         --background-color: blue;
     }
     */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
     body {
         margin: 0;
         display: grid;
@@ -27,6 +36,7 @@
     }
     tab-set {
         max-height: 1000px;
+        overflow: hidden;
     }
     app-options {
         height: 100%;

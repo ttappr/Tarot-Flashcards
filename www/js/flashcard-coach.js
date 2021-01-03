@@ -3,7 +3,7 @@ import {eappend,
         query, 
         separse}        from './utils.js';
 
-import html             from './../html/coach.html';
+import html             from './../html/flashcard-coach.html';
 
 export class Coach extends HTMLElement {
     constructor() {

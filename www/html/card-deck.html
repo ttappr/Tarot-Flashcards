@@ -1,7 +1,15 @@
 
 <template name="deck">
     <style>
-        #card-base-host {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;            
+        }
+        .deck {
             display: flex;
             flex-flow: row;
             align-items: center;
@@ -10,86 +18,137 @@
             width: 100%;
             overflow-y: auto;
             padding: 15px;
-            box-sizing: border-box;
         }
-        #card-base:not(.revealed) {
-            display: contents;
-        }
-        #card-base.revealed {
-            display: block;
+        .deck__frame {
             height: 100%;
-            width: 100%;
-            max-width: 600px;
-            max-height: 500px;
         }
-        #card-base img  {
+        .deck__card-face-frame {
+            display: inline-block;
+            box-shadow: 3px 3px 4px #888888;
+            height: 100%;
+            margin-bottom: 3px;
+        }
+        .deck__card-face-frame img {
             object-fit: contain;
-            float: left;
             height: auto;
             width: auto;
             max-height: 100%;
             max-width: 100%;
         }
-        #card-base.revealed img {
-            object-fit: contain;
-            max-width: 45%;
-            height: auto;
-            width: auto;
-            margin-right: 15px;
-        }
-        #card-base:not(.revealed) :not(img) {
+        .deck__card-info {
             display: none;
         }
-        #card-base.revealed :not(img) {
+        .deck__card-name {
             display: block;
-            /* text-align: justify; */
+            font-size: 1.3em;
         }
-        #card-base.revealed p > * {
-            display: inline;
+
+        .deck__frame--reveal-info {
+            width: 100%;
         }
+
+        .deck__frame--reveal-info .deck__card-face-frame {
+            height: 75%;
+            max-width: 75%;
+            float: left;
+            margin-right: 15px;
+        }
+        .deck__frame--reveal-info .deck__card-info {
+            display: block;
+        }
+
     </style>
-    <div id="card-base-host">
-        <div id="card-base">
-            <!-- img tag gets inserted here. -->
-            <!-- p tag gets inserted here. -->
+
+    <div class="deck" id="card-base-host">
+        <div class="deck__frame" id="deck-frame">
+
+            <div class="deck__card-face-frame"
+                 id="image-frame"></div>
+
+            <p class="deck__card-info" id="card-info">
+                <span class="deck__card-name" id="card-name"></span>
+                <br>
+                <span class="deck__card-meaning" id="card-meaning"></span>
+            </p>
+
         </div>
     </div>
+    
 </template>
 
 <template name="config">
     <style>
-        #main-container {
-            display: flex;
-            flex-direction: row;
+        * {
+            box-sizing: border-box;
+            /* margin: 0; */
+            /* padding: 0; */
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;            
         }
-        @media (max-width: 600px) {
-            #main-container {
-                flex-direction: column;
-            }
-        }
-        .control-topic {
-            flex: 50%;
-        }
-        #include-controls {
-            display: inline-grid;
-            grid-template-columns: auto auto;
+
+        table {
             width: 100%;
-            max-width: 500px;
-            padding: 10px 20px;
-            grid-gap: 20px 0;
+            text-align: left;
+            border: none;
+            border-collapse: collapse;
+            border-spacing: 0;
         }
-        .section-title {
-            margin: 20px 0 10px 0;
+
+        td, th, tr {
+            border: none;
         }
+        
+        th {
+            position: sticky;
+            top: 0;
+            background-color: var(--secondary-color);
+            color: white;
+            z-index: 2;
+        }
+
+        table .selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
         input[type=checkbox] {
             height: 18px;
             width: 18px;
         }
-        #card-range {
-            padding: 10px 20px;
-            width: 100%;
+
+        .config {
+            display: flex;
+            flex-direction: row;
         }
-        #txt-range {
+
+        .config__section {
+            flex: 50%;
+        }
+
+        .config__section-controls {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px 20px;
+        }
+
+        .config__section-controls-suits {
+            /* subclass of .config__section-controls */
+            display: inline-grid;
+            grid-template-columns: auto auto;
+            grid-gap: 20px 0;
+        }
+
+        .config__section-controls-range {
+            /* subclass of .config__section-controls */
+            display: block;
+        }
+
+        .config__section-title {
+            margin: 20px 0 10px 0;
+        }
+
+        .config__range-brief-display {
             width: 300px;
             height: 30px;
             border: 1px solid black;
@@ -102,7 +161,8 @@
             cursor: default;
             background-color: white;
         }
-        #dropdown {
+
+        .config__range-dropdown {
             display: none;
             position: absolute;
             border: 1px solid black;
@@ -117,50 +177,50 @@
             
             overflow-y: auto;
         }
-        @media (min-width: 600px) {
-            #dropdown {
-                max-height: 58vh;
-            }
-        }
-        #card-range:focus-within #dropdown {
+
+        .config__section-controls-range:focus-within 
+        .config__range-dropdown {
             display: block;
         }
-        table {
-            width: 100%;
-            text-align: left;
-            border: none !important;
-        }
-        td, th, tr {
-            border: none !important;
-        }
-        th {
-            position: sticky;
-            top: 0;
-            background-color: var(--secondary-color);
-            color: white;
-            z-index: 2;
-        }
-        table .selected {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .help-icon {
+
+        .config__section-help-icon {
             opacity: .25;
         }
+
         .not-available {
             opacity: .33;
         }
+
         .header-not-available {
             color: gray;
         }
+
+        @media (max-width: 600px) {
+            .config {
+                flex-direction: column;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .config__range-dropdown {
+                max-height: 58vh;
+            }
+        }
+
+
     </style>
-    <div id="main-container">
-        <div class="control-topic">
-            <div class="section-title">
+    <div class="config" id="main-container">
+        <div class="config__section 
+                    control-topic">
+            <div class="config__section-title 
+                        section-title">
                 <span>Include</span>
-                <img class="help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="config__section-help-icon
+                            help-icon" src="./../img/help-black-18dp.svg" />
             </div>
-            <div id="include-controls" class="controls">
+            <div class="config__section-controls
+                        config__section-controls-suits"
+                    id="include-controls">
                 <div>
                     <input id="cb-cups" value="cups" type="checkbox">
                     <label for="cb-cups">Cups</label>
@@ -191,15 +251,23 @@
                 </div>
             </div>
         </div>
-        <div class="control-topic">
-            <div class="section-title">
+        <div class="config__section 
+                    control-topic">
+            <div class="config__section-title
+                        section-title">
                 <span>Card Range</span>
-                <img class="help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="config__section-help-icon
+                            help-icon" src="./../img/help-black-18dp.svg" />
             </div>
-            <div id="card-range" class="controls">
-                <div id="txt-range" tabindex="0"></div>
-                <div id="dropdown" tabindex="0">
-                    <table id="dropdown-table" cellspacing="0" cellpadding="8">
+            <div class="config__section-controls 
+                        config__section-controls-range" 
+                    id="card-range">
+                <div class="config__range-brief-display" 
+                    id="txt-range" tabindex="0"></div>
+                <div class="config__range-dropdown" 
+                    id="dropdown" tabindex="0">
+                    <table class="config__range-dropdown-table"
+                        id="dropdown-table" cellspacing="0" cellpadding="8">
                         <tr data-ordinal="-1">
                             <th>Order</th>
                             <th>Minor</th>

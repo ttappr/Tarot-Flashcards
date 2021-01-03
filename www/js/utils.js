@@ -97,6 +97,18 @@ export function meappend(elm, children) {
     }
 }
 
+/**
+ * Clear and Append - 
+ * Clear the child list of 'elm' , then add 'child' as a child.
+ * @param {Node} elm    The element to clear then append to.
+ * @param {Node} child  The element to add to 'elm' as a child.
+ */
+export function cappend(elm, child) {
+    while (elm.firstChild) {
+        elm.removeChild(elm.lastChild);
+    }
+    elm.appendChild(child);
+}
 
 /**
  * Element Parse - 
@@ -140,4 +152,24 @@ export function separse(html) {
     let elm   = eparse(html);
     let child = elm.children[0];
     return child;
+}
+
+/**
+ * Remove Class - 
+ * Remove a class from an element.
+ * @param {HTMLElement} elm The element to remove the class from.
+ * @param {string}      cls The name of the class to remove.
+ */
+export function rmclass(elm, cls) {
+    elm.classList.remove(cls);
+}
+
+/**
+ * Add Class - 
+ * Add a class to an element.
+ * @param {HTMLElement} elm The element to add a class to.
+ * @param {string}      cls The class to add.
+ */
+export function addclass(elm, cls) {
+    elm.classList.add(cls);
 }
