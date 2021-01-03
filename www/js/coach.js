@@ -41,8 +41,8 @@ export class Coach extends HTMLElement {
         let nids = ids.length;
         let id   = '';
         do {
-            let rnd  = Math.floor(Math.random() * nids);
-                id   = ids[rnd];
+            let rnd = Math.floor(Math.random() * nids);
+                id  = ids[rnd];
         } while (id === this._lastCardID && nids > 1);
         this._lastCardID = id;
         this._deck.showCard(id);

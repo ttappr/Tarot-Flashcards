@@ -2,6 +2,10 @@
 
 @import './meyerweb-reset';
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     --primary-color: #4CAF50;
     --primary-color: #ff7494;
@@ -18,10 +22,12 @@ body {
 
     !The ITCSS layers are: 
 
-        * Settings  -   used with preprocessors and contain font, colors 
-                        definitions, etc.
-        * Tools     -   globally used mixins and functions. It’s important not 
-                        to output any CSS in the first 2 layers.
+        ? Settings  -   used with preprocessors and contain font, colors 
+                        definitions, etc. This level doesn't apply if not using
+                        SASS or other preprocessing.
+        ? Tools     -   globally used mixins and functions. It’s important not 
+                        to output any CSS in the first 2 layers. This level
+                        doesn't apply unless using a preprocessor.
         * Generic   -   reset and/or normalize styles, box-sizing definition, 
                         etc. This is the first layer which generates actual CSS.
         * Elements /
@@ -54,6 +60,15 @@ body {
 
     !Shadow DOM elements can be exposed to external styling by setting the 
     'part' attribute of elements to a suitable name, then using ::part() in
-    external selectors. ::theme() is similar, but is more global in scope.
+    external selectors. ::theme() is a similar selector utility, but is more 
+    global in scope.
+
+    Elements can be prestyled before they're shown to avoid FOUC's.
+        my-element:not(:defined) {
+            display: inline-block;
+            height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
  */
 

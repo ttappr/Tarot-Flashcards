@@ -1,63 +1,71 @@
 
 <template>
     <style>
+
         * {
             box-sizing: border-box;
         }
-        /* --- Main containers --- */
-        #primary-view {
+
+        .coach {
             height: 100%;
             width: 100%;
             display: grid;
-            /* grid-template-columns: 60% auto; */
             grid-template-rows: 60% auto;
             padding-bottom: 15px;
         }
-        /*
-        @media (max-width: 800px) {
-            #primary-view {
-                grid-template-rows: 60% auto;
-                grid-template-columns: none;
-            }
-        }
-        */
-        .slidecontainer {
+
+        .coach-deck {
+            height: 100%;
             width: 100%;
         }
 
-
-        /* --- Controller container --- */
-
-        #controller-panel {
+        .coach-controls {
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
             text-align: center;
             padding: 15px;
+            width: 100%;
+            height: 100%;
         }
 
-        .controller {
+        .coach-controls__frame {
+            width: 100%;
             margin: 7px;
         }
 
-        /* --- slider styles --- */
-
-        .slider {
+        /* Experimenting with this syntax: "_-" indicates a class/subclass 
+           relationship. Below is the superclass rule. */
+        [class^=coach-controls__range_-] {
             -webkit-appearance: none;
             width: 210px;
             height: 15px;
             border-radius: 5px;
-            background-color: #d3d3d3;
             outline: none;
-            /* opacity: 0.7; */
-            -webkit-transition: .2s;
-            transition: opacity .2s;
         }
-        .slider:hover {
-            opacity: 1;
+
+        .coach-controls__range_-slider { 
+            /* subclass of coach-controls__range_- */
+            background-color: #d3d3d3;
         }
-        .slider::-webkit-slider-thumb {
+
+        .coach-controls__range_-progress {
+            /* subclass of coach-controls__range_- */
+            overflow: hidden;
+        }
+
+        .coach-controls__button {
+            padding: 10px 20px;
+            margin: 0 20px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+
+        .coach-controls__range_-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 25px;
@@ -67,7 +75,8 @@
             cursor: pointer;
             border: none;
         }
-        .slider::-moz-range-thumb {
+
+        .coach-controls__range_-slider::-moz-range-thumb {
             width: 25px;
             height: 25px;
             border-radius: 50%;
@@ -75,90 +84,109 @@
             cursor: pointer;
             border: none;
         }
-        progress {
-            height: 15px;
-            width: 210px;
-            border-radius: 5px;
-            outline: none;
-            overflow: hidden;
-            -webkit-appearance: none;
-        }
-        
-        progress::-webkit-progress-value {
+
+        .coach-controls__range_-progress::-webkit-progress-value {
             background-color: var(--primary-color);
         }
-        progress::-webkit-progress-bar {
+
+        .coach-controls__range_-progress::-webkit-progress-bar {
             background-color: #d3d3d3;
         }
 
-        button {
-            padding: 10px 20px;
-            margin: 0 20px;
-            border: none;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 5px;
-            font-size: 17px;
+        .coach-controls__range_-slider:hover {
+            opacity: 1;
         }
-        button:disabled {
+
+        .coach-controls__button:disabled {
             opacity: 0.65;
         }
-        button:focus {
+
+        .coach-controls__button:focus {
             outline: none;
         }
-        button:active {
+
+        .coach-controls__button:active {
             transform: translateY(2px);
         }
-        .ripple {
+
+        .coach-controls__button--ripple {
             background-position: center;
             transition: background .8s;
         }
-        .ripple:hover {
+
+        .coach-controls__button--ripple:hover {
             background: var(--primary-color) 
                         radial-gradient(circle, transparent 1%, 
                                         var(--primary-color-ripple) 1%) 
                         center/15000%;
         }
-        .ripple:active {
+
+        .coach-controls__button--ripple:active {
             background-color: var(--primary-color-ripple);
             background-size: 100%;
             transition: background 0s;
         }
-        @media (max-width: 370px) {
-            .slidecontainer input, .slidecontainer progress {
-                width: 150px;
+
+        @media (min-width: 600px) and (max-height: 550px) {
+            .coach {
+                grid-template-columns: 50% auto;
+                grid-template-rows: 99%;
             }
         }
-        @media (max-width: 300px) {
-            .slidecontainer span {
-                font-size: 12px;
+
+        @media (max-width: 365px), 
+               (max-height: 550px) and (max-width: 740px) {
+
+            .coach-controls__range_-slider, 
+            .coach-controls__range_-progress {
+                width: 125px;
+            }
+            .coach-controls__range-label {
+                font-size: 15px;
+            }
+            .coach-controls__button {
+                font-size: 18px;
+                padding: 7px 12px;
+                margin: 0 10px;
             }
         }
+
     </style>
-    <div id="primary-view">
-        <div id="deck-panel">
+
+    <div class="coach">
+        <div class="coach-deck">
             <!-- Deck of cards goes in this slot. -->
             <slot name="deck"></slot>
         </div>
-        <div id="controller-panel">
-            <span id="question">What is the meaning of this card?</span> 
 
-            <!-- The sliders and buttons. -->
-            
-            <div class="slidecontainer progress controller">
-                <span>Initiate</span>
-                <progress value="32" max="100">32%</progress>
-                <span>Sage</span>
+        <div class="coach-controls">
+            <span class="coach-controls__question" 
+                    id="question">
+                What is the meaning of this card?</span> 
+
+            <div class="coach-controls__frame">
+                <span class="coach-controls__range-label">Initiate</span>
+                <progress class="coach-controls__range_-progress" 
+                        id="progress" 
+                        value="32" max="100">32%</progress>
+                <span class="coach-controls__range-label">Sage</span>
             </div>
-            <div class="slidecontainer controller">
-                <span>Stumped</span>
-                <input type="range" min="1" max="100" value="50" 
-                        class="slider" id="progress">
-                <span>Certain</span>
+
+            <div class="coach-controls__frame">
+                <span class="coach-controls__range-label">Stumped</span>
+                <input class="coach-controls__range_-slider" 
+                        id="certainty"
+                        type="range" min="1" max="100" value="50">
+                <span class="coach-controls__range-label">Certain</span>
             </div>
-            <div>
-                <button id="reveal" class="controller ripple">Reveal</button>
-                <button id="next" class="controller ripple">Next</button>
+
+            <div class="coach-controls__frame">
+                <button class="coach-controls__button 
+                               coach-controls__button--ripple" 
+                        id="reveal">Reveal</button>
+                <button class="coach-controls__button 
+                               coach-controls__button--ripple"
+                         id="next">Next</button>
             </div>
         </div>
     </div>
