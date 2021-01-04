@@ -23,23 +23,29 @@
         }
         
         .deck__frame {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center;
             height: 100%;
+            width: 100%;
+            align-self: center;
+            max-width: 500px;
         }
         
         .deck__card-face-host {
-            display: inline-block;
-            box-shadow: 3px 3px 4px #888888;
-            height: 100%;
-            /* width: auto; */
+            display: contents;
         }
         
         .deck__card-face-image {
             object-fit: contain;
             height: 100%;
             width: auto;
-            outline: 1px solid black;
+            
+            outline: 2px solid black;
+            box-shadow: 5px 5px 6px #888888;
         }
-        
+
         .deck__card-info {
             display: none;
         }
@@ -50,11 +56,15 @@
         }
 
         .deck__frame--reveal-info {
-            width: 100%;
-            max-width: 500px;
+            display: block;
         }
 
-        .deck__frame--reveal-info .deck__card-face-host {
+        .deck__card-face-image--reversed {
+            transform: rotateZ(180deg);
+            box-shadow: -5px -5px 6px #888888;
+        }
+        
+        .deck__frame--reveal-info .deck__card-face-image {
             float: left;
             height: 75%;
             max-width: 75%;
