@@ -205,27 +205,34 @@
             color: gray;
         }
 
-        @media (max-width: 600px) {
+        @media only screen and  (max-width: 568px) {
             .config {
                 flex-direction: column;
             }
         }
 
-        @media (max-width: 321px) {
+        @media only screen and  (max-width: 400px) {
+            .config {
+                font-size: 15px;
+            }
+        }
+
+        @media only screen and  (max-width: 350px) {
             .config {
                 font-size: 12px;
             }
         }
 
-        @media (max-width: 400px) {
+        @media only screen and  (orientation: landscape) and (max-width: 736px) {
             .config {
                 font-size: 15px;
             }
         }
 
-        @media (orientation: landscape) and (max-width: 654px) {
+        @media only screen and (orientation: landscape) and (max-width: 569px) {
             .config {
-                font-size: 15px;
+                flex-direction: row;
+                font-size: 13px;
             }
         }
 
