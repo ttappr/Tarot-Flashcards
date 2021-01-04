@@ -30,14 +30,14 @@
             display: inline-block;
             box-shadow: 3px 3px 4px #888888;
             height: 100%;
+            /* width: auto; */
         }
         
         .deck__card-face-image {
             object-fit: contain;
-            height: auto;
+            height: 100%;
             width: auto;
-            max-height: 100%;
-            max-width: 100%;
+            outline: 1px solid black;
         }
         
         .deck__card-info {
@@ -55,9 +55,9 @@
         }
 
         .deck__frame--reveal-info .deck__card-face-host {
+            float: left;
             height: 75%;
             max-width: 75%;
-            float: left;
             margin-right: 15px;
             margin-bottom: 3px;
         }
@@ -71,7 +71,7 @@
     <div class="deck">
         <div class="deck__frame">
             <div class="deck__card-face-host">
-                <!-- <img class="deck__card-face-image"> put here by JS.  -->
+                <img class="deck__card-face-image" />
             </div>
             <p class="deck__card-info">
                 <span class="deck__card-name"></span>

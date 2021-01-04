@@ -11,7 +11,8 @@ import {eappend,
         mquery,
         cappend,
         rmclass,
-        addclass}     from './utils.js';
+        addclass,
+        chclear}     from './utils.js';
 
 const OPT_PREFIX    = 'deckconfig:';
 const OPT_INCLUDE   = 'deckconfig:include';
@@ -68,13 +69,14 @@ export class CardDeck extends HTMLElement {
         let template = meparse(html)[0];
         eappend(shadow, template.content.cloneNode(true));
 
-        this._deckFrame      = query('.deck__frame',            shadow);
-        this._cardImageElm   = query('.deck__card-face-host',   shadow);
-        this._cardNameElm    = query('.deck__card-name',        shadow);
-        this._cardMeaningElm = query('.deck__card-meaning',     shadow);
+        this._deckFrame       = query('.deck__frame',            shadow);
+        this._cardFaceHostElm = query('.deck__card-face-host',   shadow);
+        this._cardNameElm     = query('.deck__card-name',        shadow);
+        this._cardMeaningElm  = query('.deck__card-meaning',     shadow);
 
         this._cards  = [];
         this._dcards = {};
+        this._images = {};
         this._populateDeck();
 
         this._filter = {include: storage.data[OPT_INCLUDE], 
@@ -90,10 +92,16 @@ export class CardDeck extends HTMLElement {
     _populateDeck() {
         for (let record of cardData) {
             let card = new Card(record);
+
             this._dcards[card.id] = card;
             this._cards.push(card);
+
+            let image = ecreate('img', { class: 'deck__card-face-image', 
+                                           src: `./img/${card.img}` });
+            this._images[card.id] = image;
         }
     }
+
     /**
      * Handler for option update events received from the persistent-storage 
      * object.
@@ -120,18 +128,24 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to show.
      */
     showCard(id) {
+        let host = this._cardFaceHostElm;
         let card = this.getCardByID(id);
-        let img  = ecreate('img', {   src: `./img/${card.img}`,
-                                    class: 'deck__card-face-image' });
+        let img  = this._images[id];
 
+        let aspect = img.naturalWidth / img.naturalHeight;
+
+        let height = window.getComputedStyle(host).height;
+        let width  = Math.floor(height * aspect);
+
+        host.style.width  = width  + 'px';
+        host.style.height = height + 'px';
+
+        cappend(this._cardFaceHostElm, img);
+        
         rmclass(this._deckFrame, 'deck__frame--reveal-info');
 
         this._cardNameElm.innerHTML    = card.name;
         this._cardMeaningElm.innerHTML = card.meaning;
-        
-        cappend(this._cardImageElm, img);
-
-        let _ = this._cardImageElm.offsetHeight;
     }
     /**
      * Causes the deck to reveal the back side of the flash card.

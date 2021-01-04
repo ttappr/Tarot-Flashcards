@@ -104,10 +104,19 @@ export function meappend(elm, children) {
  * @param {Node} child  The element to add to 'elm' as a child.
  */
 export function cappend(elm, child) {
+    chclear(elm);
+    elm.appendChild(child);
+}
+
+/**
+ * Clear Children -
+ * Removes children from the node.
+ * @param {Node} elm The element to clear of children.
+ */
+export function chclear(elm) {
     while (elm.firstChild) {
         elm.removeChild(elm.lastChild);
     }
-    elm.appendChild(child);
 }
 
 /**
