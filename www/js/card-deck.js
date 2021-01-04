@@ -68,11 +68,10 @@ export class CardDeck extends HTMLElement {
         let template = meparse(html)[0];
         eappend(shadow, template.content.cloneNode(true));
 
-        this._deckFrame      = query('#deck-frame',   shadow);
-        this._cardImageElm   = query('#image-frame',  shadow);
-        this._cardNameElm    = query('#card-name',    shadow);
-        this._cardMeaningElm = query('#card-meaning', shadow);
-        this._cardHiddenElm  = query('#card-info',    shadow);
+        this._deckFrame      = query('.deck__frame',            shadow);
+        this._cardImageElm   = query('.deck__card-face-host',   shadow);
+        this._cardNameElm    = query('.deck__card-name',        shadow);
+        this._cardMeaningElm = query('.deck__card-meaning',     shadow);
 
         this._cards  = [];
         this._dcards = {};
@@ -82,8 +81,6 @@ export class CardDeck extends HTMLElement {
                           range: storage.data[OPT_RANGE  ]};
 
         this._filteredCardIDs = this._filterIDs();
-
-        this._cardBase = query('#card-base', this.shadowRoot);
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -188,8 +185,8 @@ export class CardDeckConfig extends HTMLElement {
         let shadow   = this.shadowRoot;
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
-        this._text   = query('#txt-range', shadow);
-        this._table  = query('#dropdown-table', shadow);
+        this._text   = query('.config__range-value', shadow);
+        this._table  = query('.config__range-dropdown-table', shadow);
         
         this._range  = {low: 0, high: 21};
         this._incl   = {cups: true, swords: true, wands: true, 

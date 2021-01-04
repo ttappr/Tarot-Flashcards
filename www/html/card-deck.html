@@ -1,6 +1,7 @@
 
 <template name="deck">
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -9,6 +10,7 @@
             -webkit-user-select: none;
             -ms-user-select: none;            
         }
+        
         .deck {
             display: flex;
             flex-flow: row;
@@ -19,25 +21,29 @@
             overflow-y: auto;
             padding: 15px;
         }
+        
         .deck__frame {
             height: 100%;
         }
-        .deck__card-face-frame {
+        
+        .deck__card-face-host {
             display: inline-block;
             box-shadow: 3px 3px 4px #888888;
             height: 100%;
-            margin-bottom: 3px;
         }
-        .deck__card-face-frame img {
+        
+        .deck__card-face-image {
             object-fit: contain;
             height: auto;
             width: auto;
             max-height: 100%;
             max-width: 100%;
         }
+        
         .deck__card-info {
             display: none;
         }
+        
         .deck__card-name {
             display: block;
             font-size: 1.3em;
@@ -45,35 +51,36 @@
 
         .deck__frame--reveal-info {
             width: 100%;
+            max-width: 500px;
         }
 
-        .deck__frame--reveal-info .deck__card-face-frame {
+        .deck__frame--reveal-info .deck__card-face-host {
             height: 75%;
             max-width: 75%;
             float: left;
             margin-right: 15px;
+            margin-bottom: 3px;
         }
+        
         .deck__frame--reveal-info .deck__card-info {
             display: block;
         }
 
     </style>
 
-    <div class="deck" id="card-base-host">
-        <div class="deck__frame" id="deck-frame">
-
-            <div class="deck__card-face-frame"
-                 id="image-frame"></div>
-
-            <p class="deck__card-info" id="card-info">
-                <span class="deck__card-name" id="card-name"></span>
+    <div class="deck">
+        <div class="deck__frame">
+            <div class="deck__card-face-host">
+                <!-- <img class="deck__card-face-image"> put here by JS.  -->
+            </div>
+            <p class="deck__card-info">
+                <span class="deck__card-name"></span>
                 <br>
-                <span class="deck__card-meaning" id="card-meaning"></span>
+                <span class="deck__card-meaning"></span>
             </p>
-
         </div>
     </div>
-    
+   
 </template>
 
 <template name="config">
@@ -113,30 +120,33 @@
         }
 
         input[type=checkbox] {
-            height: 18px;
-            width: 18px;
+            height: 1.125em;
+            width: 1.125em;
         }
 
         .config {
             display: flex;
             flex-direction: row;
+            overflow: hidden;
+            font-size: 18px;
         }
 
         .config__section {
             flex: 50%;
+            overflow: hidden;
         }
 
         .config__section-controls {
             width: 100%;
-            max-width: 500px;
-            padding: 10px 20px;
+            max-width: 31.25em;
+            padding: .625em 1.25em;
         }
 
         .config__section-controls-suits {
             /* subclass of .config__section-controls */
             display: inline-grid;
             grid-template-columns: auto auto;
-            grid-gap: 20px 0;
+            grid-gap: 1.25em 0;
         }
 
         .config__section-controls-range {
@@ -145,18 +155,18 @@
         }
 
         .config__section-title {
-            margin: 20px 0 10px 0;
+            margin: 1.25em 0 .625em 0;
         }
 
-        .config__range-brief-display {
-            width: 300px;
-            height: 30px;
+        .config__range-value {
+            width: 18.75em;
+            height: 1.875;
             border: 1px solid black;
             border-radius: 5px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding: 6px;
+            padding: .33em;
             box-sizing: border-box;
             cursor: default;
             background-color: white;
@@ -166,9 +176,9 @@
             display: none;
             position: absolute;
             border: 1px solid black;
-            border-radius: 5px;
+            border-radius: .3125em;
             box-sizing: border-box;
-            width: 300px;
+            width: 18.75em;
             /* height: 500px; */
             z-index: 1;
             cursor: default;
@@ -201,26 +211,34 @@
             }
         }
 
-        @media (min-width: 600px) {
-            .config__range-dropdown {
-                max-height: 58vh;
+        @media (max-width: 321px) {
+            .config {
+                font-size: 12px;
             }
         }
 
+        @media (max-width: 400px) {
+            .config {
+                font-size: 15px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-width: 654px) {
+            .config {
+                font-size: 15px;
+            }
+        }
 
     </style>
-    <div class="config" id="main-container">
-        <div class="config__section 
-                    control-topic">
-            <div class="config__section-title 
-                        section-title">
+    <div class="config">
+        <div class="config__section">
+            <div class="config__section-title">
                 <span>Include</span>
-                <img class="config__section-help-icon
-                            help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="config__section-help-icon" 
+                     src="./../img/help-black-18dp.svg" />
             </div>
             <div class="config__section-controls
-                        config__section-controls-suits"
-                    id="include-controls">
+                        config__section-controls-suits">
                 <div>
                     <input id="cb-cups" value="cups" type="checkbox">
                     <label for="cb-cups">Cups</label>
@@ -251,23 +269,15 @@
                 </div>
             </div>
         </div>
-        <div class="config__section 
-                    control-topic">
-            <div class="config__section-title
-                        section-title">
+        <div class="config__section">
+            <div class="config__section-title">
                 <span>Card Range</span>
-                <img class="config__section-help-icon
-                            help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="config__section-help-icon" src="./../img/help-black-18dp.svg" />
             </div>
-            <div class="config__section-controls 
-                        config__section-controls-range" 
-                    id="card-range">
-                <div class="config__range-brief-display" 
-                    id="txt-range" tabindex="0"></div>
-                <div class="config__range-dropdown" 
-                    id="dropdown" tabindex="0">
-                    <table class="config__range-dropdown-table"
-                        id="dropdown-table" cellspacing="0" cellpadding="8">
+            <div class="config__section-controls config__section-controls-range">
+                <div class="config__range-value" tabindex="0"></div>
+                <div class="config__range-dropdown" tabindex="0">
+                    <table class="config__range-dropdown-table" cellspacing="0" cellpadding="8">
                         <tr data-ordinal="-1">
                             <th>Order</th>
                             <th>Minor</th>
