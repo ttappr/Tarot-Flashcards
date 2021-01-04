@@ -33,6 +33,10 @@ query('nav-bar').onclick = (e) => {
     }
 };
 
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.info("Running in standalone mode.");
+}
+
 (async function () {
     try {
         if ('serviceWorker' in navigator) {
@@ -47,3 +51,13 @@ query('nav-bar').onclick = (e) => {
         console.log('Service Worker registration failed: ', error);
     }
 })();
+
+window.addEventListener('orientationchange', function () {
+    var originalBodyStyle = getComputedStyle(document.body)
+                            .getPropertyValue('display');
+    document.body.style.display = 'none';
+    let _ = document.body.offsetHeight;
+    setTimeout(function () {
+        document.body.style.display = originalBodyStyle;
+    }, 10);
+});

@@ -25,9 +25,9 @@ export class Coach extends HTMLElement {
         this._next.disabled     = true;
         this._lastCardID        = null;
 
-        setTimeout(() => {
+        this._deck.addEventListener('initialized', () => {
             this._onNext();
-        });
+        }, { once: true });
     }
     _onReveal() {
         this._deck.showBack();

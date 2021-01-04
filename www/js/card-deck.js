@@ -81,6 +81,8 @@ export class CardDeck extends HTMLElement {
                           range: storage.data[OPT_RANGE  ]};
 
         this._filteredCardIDs = this._filterIDs();
+
+        this.dispatchEvent(new CustomEvent('initialized', { detail: null }));
     }
     /**
      * Populates the deck using the JSON file for card data.
@@ -128,6 +130,8 @@ export class CardDeck extends HTMLElement {
         this._cardMeaningElm.innerHTML = card.meaning;
         
         cappend(this._cardImageElm, img);
+
+        let _ = this._cardImageElm.offsetHeight;
     }
     /**
      * Causes the deck to reveal the back side of the flash card.
