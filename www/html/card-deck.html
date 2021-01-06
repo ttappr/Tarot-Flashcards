@@ -138,6 +138,7 @@
             grid-gap: 10px;
             overflow: hidden;
             height: 100%;
+            font-size: 18px;
         }
         .section {
             /* background-color: yellow; */
@@ -147,8 +148,16 @@
             max-height: 100%;
             overflow: hidden;
         }
+        section.include-section {
+            
+        }
+        section.range-section {
+
+        }
         .section-title {
             /* background-color: green; */
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         .section-help-icon {
             opacity: .5;
@@ -163,8 +172,9 @@
             /* background-color: darkseagreen; */
             display: grid;
             grid-template-columns: auto auto;
-            grid-gap: 20px;
-            overflow-y: auto;
+            row-gap: 30px;
+            column-gap: 15px;
+            overflow: hidden;
         }
         .section-controls-range {
             /* background-color: indigo; */
@@ -198,11 +208,20 @@
         @media (max-width: 320px) {
             .section-controls-suits {
                 grid-template-columns: auto;
+                padding-left: 15px;
             }
+            .section.include-section {
+                grid-row: 2;
+            }
+            .section.range-section {
+                grid-row: 1;
+            }
+
         }
+ 
     </style>
     <div class="config">
-        <div class="section">
+        <div class="section include-section">
             <div class="section-title">
                 <span>Include</span> 
                 <img class="section-help-icon" 
@@ -240,7 +259,7 @@
                 </div>
             </div>
         </div>
-        <div class="section">
+        <div class="section range-section">
             <div class="section-title">
                 <span>Card Range</span>
                 <img class="section-help-icon" src="./../img/help-black-18dp.svg" />
