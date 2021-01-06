@@ -9,6 +9,14 @@
             -webkit-user-select: none;
             -ms-user-select: none;            
         }
+        :root {
+            --primary-color: green;
+            --secondary-color: black;
+
+            /* Outer scope defines these using rem and overrides these. */
+            --ctrl-font-size: 1em;
+            --info-font-size: 1em;
+        }
         :host {
             --color: white;
             --background-color: var(--secondary-color);
@@ -22,14 +30,14 @@
             background-color: var(--background-color);
         }
 
-        .topnav ::slotted(*), img {
+        .topnav ::slotted(*), span {
             float: left;
             display: block;
             color: var(--color); 
             text-align: center;
-            padding: 14px 16px !important;
+            padding: .7rem .8rem !important;
             text-decoration: none;
-            font-size: 18px !important;
+            font-size: var(--ctrl-font-size) !important;
         }
 
         .topnav ::slotted(*:hover) {
@@ -49,7 +57,7 @@
             .topnav:not(.responsive) ::slotted(*:not(.active)) {
                 display: none;
             }
-            .topnav img.icon {
+            .topnav span.icon {
                 float: right;
                 display: block;
             }
@@ -74,7 +82,7 @@
 
     <div class="topnav" id="topnav">
         <slot></slot>
-        <img src="./../img/menu-white-18dp.svg" class="icon" id="menu"></img>
+        <span class="icon" id="menu">☰</span>
     </div>
 
 </template>

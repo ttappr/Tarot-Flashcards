@@ -34,20 +34,36 @@ export class Card {
      *                     the card info JSON file.
      */
     constructor(rec) {
-        this._props = verifyJsonData(rec);
-        this._major = rec.suit === 'Major Arcana';
-        this._name  = this._major ? rec.value : `${rec.value} of ${rec.suit}`;
-        this._id    = this._name.replace(/ /g, '_');
-        this._ord   = Number.parseInt(rec.ordinal);
+        this._props   = verifyJsonData(rec);
+        this._major   = rec.suit === 'Major Arcana';
+        this._name    = this._major ? rec.value : `${rec.value} of ${rec.suit}`;
+        this._id      = this._name.replace(/ /g, '_');
+        this._ord     = Number.parseInt(rec.ordinal);
+        this._rev     = false;
+        this._meaning = rec.meaning;
+        this._image   = ecreate('img', { class: 'deck__card-face-image', 
+                                           src: `./img/${rec.pic}` });
     }
     get id()        { return this._id; }
-    get name()      { return this._name; }
+    get name()      { return this._rev ? this._name+' Reversed' : this._name; }
     get ordinal()   { return this._ord; }
     get suit()      { return this._props.suit; }
-    get img()       { return this._props.pic; }
-    get meaning()   { return this._props.meaning; }
-    get reverse()   { return this._props.reverse; }
+    get image()     { return this._image; }
+    get meaning()   { return this._meaning; }
     get descr()     { return this._props.descr; }
+    get reversed()  { return this._rev; }
+    set reversed(b) { 
+        if (b !== this._rev) {
+            this._rev = b; 
+            if (b) {
+                addclass(this._image, 'deck__card-face-image--reversed');
+                this._meaning = this._props.reverse;
+            } else {
+                rmclass(this._image, 'deck__card-face-image--reversed');
+                this._meaning = this._props.meaning;
+            }
+        }
+    }
 }
 
 /**
@@ -76,7 +92,7 @@ export class CardDeck extends HTMLElement {
 
         this._cards  = [];
         this._dcards = {};
-        this._images = {};
+        this._rcards = {};
         this._populateDeck();
 
         this._filter = {include: storage.data[OPT_INCLUDE], 
@@ -94,11 +110,8 @@ export class CardDeck extends HTMLElement {
             let card = new Card(record);
 
             this._dcards[card.id] = card;
+            this._rcards[card.id + '_reversed'] = card;
             this._cards.push(card);
-
-            let image = ecreate('img', { class: 'deck__card-face-image', 
-                                           src: `./img/${card.img}` });
-            this._images[card.id] = image;
         }
     }
 
@@ -128,17 +141,8 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to show.
      */
     showCard(id) {
-        let host = this._cardFaceHostElm;
-        let card = this.getCardByID(id);
-        let img  = this._images[id];
-
-        let aspect = img.naturalWidth / img.naturalHeight;
-
-        let height = window.getComputedStyle(host).height;
-        let width  = Math.floor(height * aspect);
-
-        host.style.width  = width  + 'px';
-        host.style.height = height + 'px';
+        let card   = this._getCardByID(id);
+        let img    = card.image;
 
         cappend(this._cardFaceHostElm, img);
         
@@ -165,11 +169,18 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to retrieve.
      * @returns {Card} The card.
      */
-    getCardByID(id) {
-        return this._dcards[id];
+    _getCardByID(id) {
+        let card = this._dcards[id];
+        if (card) {
+            card.reversed = false;
+        } else {
+            card = this._rcards[id];
+            card.reversed = true;
+        }
+        return card;
     }
     get cardIDs() {
-        return Object.keys(this._dcards);
+        return Object.keys(this._dcards).concat(Object.keys(this._rcards));
     }
     get filteredCardIDs() {
         return this._filteredCardIDs;
@@ -185,6 +196,9 @@ export class CardDeck extends HTMLElement {
                  (incl === null || incl[suit])) {
                     ids.push(card.id);
             }
+        }
+        if (incl.reversals) {
+            ids = ids.concat(ids.map(id => id + '_reversed'));
         }
         return ids;
     }
@@ -203,8 +217,8 @@ export class CardDeckConfig extends HTMLElement {
         let shadow   = this.shadowRoot;
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
-        this._text   = query('.config__range-value', shadow);
-        this._table  = query('.config__range-dropdown-table', shadow);
+        this._text   = query('.range-value', shadow);
+        this._table  = query('.range-dropdown-table', shadow);
         
         this._range  = {low: 0, high: 21};
         this._incl   = {cups: true, swords: true, wands: true, 

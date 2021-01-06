@@ -1,31 +1,18 @@
 
 <template>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;            
-        }
         .content {
+            /* background-color: darksalmon; */
             display: flex;
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding-left: 1em;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
-        @media only screen and (max-width: 321px) {
-            .content {
-                font-size: 12px;
-            }
-        }
-
-        @media only screen and (orientation: landscape) and (max-width: 654px) {
-            .content {
-                font-size: 15px;
-            }
+        card-deck-config {
+            max-height: 100%;
         }
     </style>
 

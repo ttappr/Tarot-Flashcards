@@ -1,5 +1,3 @@
-
-
 @import './meyerweb-reset';
 
 * {
@@ -9,15 +7,24 @@
     -ms-user-select: none;
 }
 
+html {
+    font-size: 20px;
+
+    --ctrl-font-size: .85rem;
+    --info-font-size: .85rem;
+
+    --ctrl-padding: .65em; /* Arbitrary values - need to find real ones. */
+    --ctrl-margin: .55em;
+}
+
 body {
     --primary-color: #4CAF50;
-    --primary-color: #ff7494;
+    /* --primary-color: #ff7494; */
     --secondary-color: #333;
 
     --primary-color-ripple: #71da74;
-    --primary-color-ripple: rgb(209, 165, 184);
-}
-body {
+    /* --primary-color-ripple: rgb(209, 165, 184); */
+
     background-color: #fffcf5;
 }
 
@@ -74,4 +81,3 @@ body {
             transition: opacity 0.3s ease-in-out;
         }
  */
-

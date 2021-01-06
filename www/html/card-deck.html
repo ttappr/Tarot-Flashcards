@@ -1,6 +1,14 @@
 
 <template name="deck">
     <style>
+        :root {
+            --primary-color: green;
+            --secondary-color: black;
+
+            /* Outer scope defines these using rem and overrides these. */
+            --ctrl-font-size: 1em;
+            --info-font-size: 1em;
+        }
 
         * {
             box-sizing: border-box;
@@ -11,6 +19,10 @@
             -ms-user-select: none;            
         }
         
+        .info-text {
+            font-size: var(--info-font-size);
+        }
+
         .deck {
             display: flex;
             flex-flow: row;
@@ -19,7 +31,7 @@
             height: 100%;
             width: 100%;
             overflow-y: auto;
-            padding: 15px;
+            padding: .75em;
         }
         
         .deck__frame {
@@ -30,7 +42,7 @@
             height: 100%;
             width: 100%;
             align-self: center;
-            max-width: 500px;
+            max-width: 25em;
         }
         
         .deck__card-face-host {
@@ -52,7 +64,8 @@
         
         .deck__card-name {
             display: block;
-            font-size: 1.3em;
+            font-size: calc(var(--info-font-size) * 1.15);
+            font-weight: bold;
         }
 
         .deck__frame--reveal-info {
@@ -68,7 +81,7 @@
             float: left;
             height: 75%;
             max-width: 75%;
-            margin-right: 15px;
+            margin-right: .75em;
             margin-bottom: 3px;
         }
         
@@ -81,12 +94,12 @@
     <div class="deck">
         <div class="deck__frame">
             <div class="deck__card-face-host">
-                <img class="deck__card-face-image" />
+                <!-- <img class="deck__card-face-image" /> JS supplies. -->
             </div>
             <p class="deck__card-info">
                 <span class="deck__card-name"></span>
                 <br>
-                <span class="deck__card-meaning"></span>
+                <span class="deck__card-meaning info-text"></span>
             </p>
         </div>
     </div>
@@ -97,165 +110,106 @@
     <style>
         * {
             box-sizing: border-box;
-            /* margin: 0; */
-            /* padding: 0; */
-            user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;            
+            margin: 0; 
+            padding: 0;
         }
-
         table {
-            width: 100%;
-            text-align: left;
-            border: none;
             border-collapse: collapse;
-            border-spacing: 0;
         }
-
-        td, th, tr {
-            border: none;
-        }
-        
         th {
             position: sticky;
             top: 0;
-            background-color: var(--secondary-color);
-            color: white;
-            z-index: 2;
+            z-index: 1;
+            text-align: left;
+            /* background-color: magenta; */
         }
-
-        table .selected {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        input[type=checkbox] {
-            height: 1.125em;
-            width: 1.125em;
-        }
-
-        .config {
-            display: flex;
-            flex-direction: row;
-            overflow: hidden;
-            font-size: 18px;
-        }
-
-        .config__section {
-            flex: 50%;
-            overflow: hidden;
-        }
-
-        .config__section-controls {
+        th:last-child {
             width: 100%;
-            max-width: 31.25em;
-            padding: .625em 1.25em;
         }
-
-        .config__section-controls-suits {
-            /* subclass of .config__section-controls */
-            display: inline-grid;
+        td, th {
+            vertical-align: text-top;
+            padding: 7px;
+        }
+        .config {
+            /* background-color: red; */
+            display: grid;
+            grid-template-rows: auto auto;
+            grid-template-columns: 100%;
+            grid-gap: 10px;
+            overflow: hidden;
+            height: 100%;
+        }
+        .section {
+            /* background-color: yellow; */
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            max-height: 100%;
+            overflow: hidden;
+        }
+        .section-title {
+            /* background-color: green; */
+        }
+        .section-help-icon {
+            opacity: .5;
+        }
+        .section-controls {
+            /* background-color: blue; */
+            margin: 10px;
+            max-height: 100%;
+            overflow: hidden;
+        }
+        .section-controls-suits {
+            /* background-color: darkseagreen; */
+            display: grid;
             grid-template-columns: auto auto;
-            grid-gap: 1.25em 0;
+            grid-gap: 20px;
+            overflow-y: auto;
         }
-
-        .config__section-controls-range {
-            /* subclass of .config__section-controls */
-            display: block;
+        .section-controls-range {
+            /* background-color: indigo; */
         }
-
-        .config__section-title {
-            margin: 1.25em 0 .625em 0;
-        }
-
-        .config__range-value {
-            width: 18.75em;
-            height: 1.875;
+        .range-value {
+            /* background-color: orange; */
+            padding: 7px;
             border: 1px solid black;
-            border-radius: 5px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding: .33em;
-            box-sizing: border-box;
-            cursor: default;
-            background-color: white;
         }
-
-        .config__range-dropdown {
+        .range-dropdown {
             display: none;
-            position: absolute;
-            border: 1px solid black;
-            border-radius: .3125em;
-            box-sizing: border-box;
-            width: 18.75em;
-            /* height: 500px; */
-            z-index: 1;
-            cursor: default;
-            max-height: 50vh;
-            background-color: white;
-            
             overflow-y: auto;
+            max-height: 80%;
+            border: 1px solid black;
         }
-
-        .config__section-controls-range:focus-within 
-        .config__range-dropdown {
+        
+        .section-controls-range:focus-within .range-dropdown {
             display: block;
+            z-index: 1;
         }
-
-        .config__section-help-icon {
-            opacity: .25;
-        }
-
-        .not-available {
-            opacity: .33;
-        }
-
-        .header-not-available {
-            color: gray;
-        }
-
-        @media only screen and  (max-width: 568px) {
+        @media (min-width: 850), (orientation: landscape) {
             .config {
-                flex-direction: column;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: auto;
+                max-width: 1140px; 
             }
         }
-
-        @media only screen and  (max-width: 400px) {
-            .config {
-                font-size: 15px;
+        @media (max-width: 320px) {
+            .section-controls-suits {
+                grid-template-columns: auto;
             }
         }
-
-        @media only screen and  (max-width: 350px) {
-            .config {
-                font-size: 12px;
-            }
-        }
-
-        @media only screen and  (orientation: landscape) and (max-width: 736px) {
-            .config {
-                font-size: 15px;
-            }
-        }
-
-        @media only screen and (orientation: landscape) and (max-width: 569px) {
-            .config {
-                flex-direction: row;
-                font-size: 13px;
-            }
-        }
-
     </style>
     <div class="config">
-        <div class="config__section">
-            <div class="config__section-title">
-                <span>Include</span>
-                <img class="config__section-help-icon" 
+        <div class="section">
+            <div class="section-title">
+                <span>Include</span> 
+                <img class="section-help-icon" 
                      src="./../img/help-black-18dp.svg" />
             </div>
-            <div class="config__section-controls
-                        config__section-controls-suits">
+            <div class="section-controls
+                        section-controls-suits">
                 <div>
                     <input id="cb-cups" value="cups" type="checkbox">
                     <label for="cb-cups">Cups</label>
@@ -286,16 +240,16 @@
                 </div>
             </div>
         </div>
-        <div class="config__section">
-            <div class="config__section-title">
+        <div class="section">
+            <div class="section-title">
                 <span>Card Range</span>
-                <img class="config__section-help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="section-help-icon" src="./../img/help-black-18dp.svg" />
             </div>
-            <div class="config__section-controls config__section-controls-range">
-                <div class="config__range-value" tabindex="0"></div>
-                <div class="config__range-dropdown" tabindex="0">
-                    <table class="config__range-dropdown-table" cellspacing="0" cellpadding="8">
-                        <tr data-ordinal="-1">
+            <div class="section-controls section-controls-range">
+                <div class="range-value" tabindex="0"></div>
+                <div class="range-dropdown" tabindex="0">
+                    <table class="range-dropdown-table" cellspacing="0" cellpadding="8">
+                        <tr class="table-header" data-ordinal="-1">
                             <th>Order</th>
                             <th>Minor</th>
                             <th>Major</th>
