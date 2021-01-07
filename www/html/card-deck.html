@@ -121,6 +121,8 @@
             top: 0;
             z-index: 1;
             text-align: left;
+            background-color: var(--secondary-color);
+            color: white;
             /* background-color: magenta; */
         }
         th:last-child {
@@ -129,6 +131,10 @@
         td, th {
             vertical-align: text-top;
             padding: 7px;
+        }
+        tr.selected {
+            background-color: var(--primary-color);
+            color: white;
         }
         .config {
             /* background-color: red; */
@@ -148,12 +154,7 @@
             max-height: 100%;
             overflow: hidden;
         }
-        section.include-section {
-            
-        }
-        section.range-section {
 
-        }
         .section-title {
             /* background-color: green; */
             margin-top: 10px;
@@ -172,9 +173,17 @@
             /* background-color: darkseagreen; */
             display: grid;
             grid-template-columns: auto auto;
-            row-gap: 30px;
-            column-gap: 15px;
+            grid-template-rows: auto auto auto auto;
+            row-gap: 25px;
+            column-gap: 3px;
             overflow: hidden;
+        }
+        .section-controls-suits label {
+            margin-left: 5px;
+        }
+        .section-controls-suits input {
+            height: 20px;
+            width: 20px;
         }
         .section-controls-range {
             /* background-color: indigo; */
@@ -186,18 +195,22 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            background-color: white;
         }
         .range-dropdown {
             display: none;
+            position: absolute;
             overflow-y: auto;
             max-height: 80%;
             border: 1px solid black;
+            background-color: white;
         }
         
         .section-controls-range:focus-within .range-dropdown {
             display: block;
             z-index: 1;
         }
+
         @media (min-width: 850), (orientation: landscape) {
             .config {
                 grid-template-columns: 50% 50%;
@@ -205,18 +218,24 @@
                 max-width: 1140px; 
             }
         }
+        @media (max-width: 580px) and (orientation: landscape) {
+            .section-controls-suits div {
+                font-size: 15px;
+            }
+        }
         @media (max-width: 320px) {
+            /* Make the 'include' section have one column. */
             .section-controls-suits {
                 grid-template-columns: auto;
                 padding-left: 15px;
             }
+            /* Put the dropdown on top on devices with limited screen space. */
             .section.include-section {
                 grid-row: 2;
             }
             .section.range-section {
                 grid-row: 1;
             }
-
         }
  
     </style>
@@ -250,7 +269,7 @@
 
                 <div>
                     <input id="cb-major" value="major" type="checkbox">
-                    <label for="cb-major">Major Arcana</label>
+                    <label for="cb-maor">Major Arcana</label>
                 </div>
 
                 <div>

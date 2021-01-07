@@ -218,6 +218,7 @@ export class CardDeckConfig extends HTMLElement {
         let template = meparse(html)[1];
         eappend(shadow, template.content.cloneNode(true));
         this._text   = query('.range-value', shadow);
+        this._ddown  = query('.range-dropdown', shadow);
         this._table  = query('.range-dropdown-table', shadow);
         
         this._range  = {low: 0, high: 21};
@@ -243,6 +244,19 @@ export class CardDeckConfig extends HTMLElement {
 
         this._numCBoxesChecked = 0;
         this._loadOptions();
+
+        let rso = new ResizeObserver(this._rangeDDSizer.bind(this));
+        rso.observe(document.body);
+        rso.observe(this._text);
+    }
+    _rangeDDSizer() {
+        let txrec = this._text.getBoundingClientRect();
+        let bdrec = document.body.getBoundingClientRect();
+        let hddwn = bdrec.height - txrec.bottom - 20 + 'px';
+        let wddwn = txrec.width + 'px';
+        
+        this._ddown.style.width         = wddwn;
+        this._ddown.style['max-height'] = hddwn;
     }
     _loadOptions() {
         let include = storage.data[OPT_INCLUDE] || this._incl;
