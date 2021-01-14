@@ -5,6 +5,9 @@ import {eappend,
 
 import html             from './../html/flashcard-coach.html';
 
+/**
+ * @see file://./../html/flashcard-coach.html
+ */
 export class Coach extends HTMLElement {
     constructor() {
         super();

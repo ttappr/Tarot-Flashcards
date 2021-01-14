@@ -1,4 +1,6 @@
 
+<!-- See file://./../js/card-deck.js -->
+
 <template name="deck">
     <style>
         :root {
@@ -34,7 +36,7 @@
             padding: .75em;
         }
         
-        .deck__frame {
+        .frame {
             display: flex;
             flex-flow: row;
             align-items: center;
@@ -45,11 +47,11 @@
             max-width: 25em;
         }
         
-        .deck__card-face-host {
+        .card-face-host {
             display: contents;
         }
         
-        .deck__card-face-image {
+        .card-face-image {
             object-fit: contain;
             height: 100%;
             width: auto;
@@ -58,26 +60,26 @@
             box-shadow: 5px 5px 6px #888888;
         }
 
-        .deck__card-info {
+        .card-info {
             display: none;
         }
         
-        .deck__card-name {
+        .card-name {
             display: block;
             font-size: calc(var(--info-font-size) * 1.15);
             font-weight: bold;
         }
 
-        .deck__frame--reveal-info {
+        .frame--reveal-info {
             display: block;
         }
 
-        .deck__card-face-image--reversed {
+        .card-face-image--reversed {
             transform: rotateZ(180deg);
             box-shadow: -5px -5px 6px #888888;
         }
         
-        .deck__frame--reveal-info .deck__card-face-image {
+        .frame--reveal-info .card-face-image {
             float: left;
             height: 75%;
             max-width: 75%;
@@ -85,21 +87,21 @@
             margin-bottom: 3px;
         }
         
-        .deck__frame--reveal-info .deck__card-info {
+        .frame--reveal-info .card-info {
             display: block;
         }
 
     </style>
 
     <div class="deck">
-        <div class="deck__frame">
-            <div class="deck__card-face-host">
-                <!-- <img class="deck__card-face-image" /> JS supplies. -->
+        <div class="frame">
+            <div class="card-face-host">
+                <!-- <img class="card-face-image" /> JS supplies. -->
             </div>
-            <p class="deck__card-info">
-                <span class="deck__card-name"></span>
+            <p class="card-info">
+                <span class="card-name"></span>
                 <br>
-                <span class="deck__card-meaning info-text"></span>
+                <span class="card-meaning info-text"></span>
             </p>
         </div>
     </div>
@@ -209,6 +211,13 @@
         .section-controls-range:focus-within .range-dropdown {
             display: block;
             z-index: 1;
+        }
+
+        .not-available {
+            opacity: .35;
+        }
+        .header-not-available {
+            color: gray;
         }
 
         @media (min-width: 850), (orientation: landscape) {

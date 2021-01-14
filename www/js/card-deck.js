@@ -41,7 +41,7 @@ export class Card {
         this._ord     = Number.parseInt(rec.ordinal);
         this._rev     = false;
         this._meaning = rec.meaning;
-        this._image   = ecreate('img', { class: 'deck__card-face-image', 
+        this._image   = ecreate('img', { class: 'card-face-image', 
                                            src: `./img/${rec.pic}` });
     }
     get id()        { return this._id; }
@@ -56,10 +56,10 @@ export class Card {
         if (b !== this._rev) {
             this._rev = b; 
             if (b) {
-                addclass(this._image, 'deck__card-face-image--reversed');
+                addclass(this._image, 'card-face-image--reversed');
                 this._meaning = this._props.reverse;
             } else {
-                rmclass(this._image, 'deck__card-face-image--reversed');
+                rmclass(this._image, 'card-face-image--reversed');
                 this._meaning = this._props.meaning;
             }
         }
@@ -71,6 +71,7 @@ export class Card {
  * is designed to be responsive - to adapt to the size of the user's screen.
  * The <card-deck-config> from this same module provides the configuration
  * interface to the deck.
+ * @see file://./../html/card-deck.html
  */
 export class CardDeck extends HTMLElement {
     /**
@@ -85,10 +86,10 @@ export class CardDeck extends HTMLElement {
         let template = meparse(html)[0];
         eappend(shadow, template.content.cloneNode(true));
 
-        this._deckFrame       = query('.deck__frame',            shadow);
-        this._cardFaceHostElm = query('.deck__card-face-host',   shadow);
-        this._cardNameElm     = query('.deck__card-name',        shadow);
-        this._cardMeaningElm  = query('.deck__card-meaning',     shadow);
+        this._deckFrame       = query('.frame',            shadow);
+        this._cardFaceHostElm = query('.card-face-host',   shadow);
+        this._cardNameElm     = query('.card-name',        shadow);
+        this._cardMeaningElm  = query('.card-meaning',     shadow);
 
         this._cards  = [];
         this._dcards = {};
@@ -146,7 +147,7 @@ export class CardDeck extends HTMLElement {
 
         cappend(this._cardFaceHostElm, img);
         
-        rmclass(this._deckFrame, 'deck__frame--reveal-info');
+        rmclass(this._deckFrame, 'frame--reveal-info');
 
         this._cardNameElm.innerHTML    = card.name;
         this._cardMeaningElm.innerHTML = card.meaning;
@@ -155,7 +156,7 @@ export class CardDeck extends HTMLElement {
      * Causes the deck to reveal the back side of the flash card.
      */
     showBack() {
-        addclass(this._deckFrame, 'deck__frame--reveal-info');
+        addclass(this._deckFrame, 'frame--reveal-info');
     }
     /**
      * Returns the cards in a newly constructed array.
@@ -209,6 +210,7 @@ export class CardDeck extends HTMLElement {
  * An instance of a <card-deck-config> element is included on the Options
  * page of the app. The <card-deck> will receive events for changes in 
  * relevant options through the persistent-storage interface.
+ * @see file://./../html/card-deck.html
  */
 export class CardDeckConfig extends HTMLElement {
     constructor() {

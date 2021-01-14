@@ -13,6 +13,7 @@ import html         from './../html/tab-set.html';
  * referred to using '.display(<slot-name>). A <div> element can be used to
  * populate each named slot. It will be hosted in an internal div that fills
  * the tab space.
+ * @see file://./../html/tab-set.html
  */
 export class TabSet extends HTMLElement {
     constructor() {

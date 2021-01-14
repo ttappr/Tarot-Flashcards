@@ -10,6 +10,7 @@ import {eappend,
  * within the scope of the <nav-bar> will be displayed across the bar with the
  * selected item highlighted. It's up to the client code to figure out how
  * to attach to and handle click events on the items added.
+ * @see file://./../html/nav-bar.html
  */
 export class NavBar extends HTMLElement {
     constructor() {

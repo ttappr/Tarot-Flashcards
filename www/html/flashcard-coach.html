@@ -1,4 +1,6 @@
 
+<!-- See file://./../js/flashcard-coach.js -->
+
 <template>
     <style>
         :root {
@@ -139,7 +141,7 @@
             outline: none;
         }
 
-        .controls__button:active {
+        .controls__button:enabled:active {
             transform: translateY(.1em);
         }
 
@@ -155,7 +157,7 @@
                         center/15000%;
         }
 
-        .controls__button--ripple:active {
+        .controls__button--ripple:enabled:active {
             background-color: var(--primary-color-ripple);
             background-size: 100%;
             transition: background 0s;
