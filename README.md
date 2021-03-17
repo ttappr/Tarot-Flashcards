@@ -11,8 +11,8 @@ Many books have been written covering the meanings of each card from many
 different angles, such as their relationship to the Zodiac. This app doesn't
 intend to encompass this larger body of work, but to simply focus on Waite's 
 book. Taking this approach, users of this app will have a good foundation to
-continue learning after mastering the meanings presented by the original 
-author.
+continue learning after mastering the meanings presented by one of the deck's
+original authors.
 
 ## Building
 This project utilizes the WebPack toolchain to produce a minimized bundle along 
