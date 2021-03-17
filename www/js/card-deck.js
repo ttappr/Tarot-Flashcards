@@ -2,17 +2,17 @@
 import storage      from './persistent-storage.js';
 import html         from './../html/card-deck.html';
 import cardData     from './../data/card-data.json';
-import {eappend, 
-        ecreate, 
-        eparse, 
-        meappend, 
-        meparse,
-        query,
-        mquery,
+import {addclass,
         cappend,
-        rmclass,
-        addclass,
-        chclear}     from './utils.js';
+        chclear,
+        eappend,
+        ecreate,
+        eparse,
+        meappend,
+        meparse,
+        mquery,
+        query,
+        rmclass}    from './utils.js';
 
 const OPT_PREFIX    = 'deckconfig:';
 const OPT_INCLUDE   = 'deckconfig:include';
@@ -251,6 +251,12 @@ export class CardDeckConfig extends HTMLElement {
         rso.observe(document.body);
         rso.observe(this._text);
     }
+    /**
+     * Range dropdown sizer.
+     * Callback for the ResizeObserver used to determine when the dropdown
+     * list of cards needs to be sized to fit within the screen despite its
+     * orientation. 
+     */
     _rangeDDSizer() {
         let txrec = this._text.getBoundingClientRect();
         let bdrec = document.body.getBoundingClientRect();
@@ -260,6 +266,10 @@ export class CardDeckConfig extends HTMLElement {
         this._ddown.style.width         = wddwn;
         this._ddown.style['max-height'] = hddwn;
     }
+    /**
+     * Loads the range and include data from persistent storage. This data is
+     * used to check the checkboxes and configure the range controls.
+     */
     _loadOptions() {
         let include = storage.data[OPT_INCLUDE] || this._incl;
         let range   = storage.data[OPT_RANGE]   || this._range;
@@ -274,6 +284,10 @@ export class CardDeckConfig extends HTMLElement {
         this._range = range;
         this._updateRangeAvailability();
     }
+    /**
+     * Click callback registered with the include checkboxes.
+     * @param {Event} e Click event.
+     */
     _onIncludeClick(e) {
         let cbox   = e.target;
         let cbname = cbox.value;
@@ -299,6 +313,12 @@ export class CardDeckConfig extends HTMLElement {
         this._clearRangeTable();
         this._selectRangeRows(low, high);
     }
+
+    /**
+     * Updates the dropdown list to indicate which cards are not available
+     * given the suits chosen. This is done by adding a 'not-available' class
+     * to class lists of elements - a CSS rule styles them.
+     */
     _updateRangeAvailability() {
         let major = this._majorAvailable;
         let minor = this._minorAvailable;
@@ -336,13 +356,26 @@ export class CardDeckConfig extends HTMLElement {
         }
         this._text.innerHTML = this._createRangeText();
     }
+
+    /**
+     * true if one of the minor suits' checkboxes are checked, false otherwise.
+     */
     get _minorAvailable() {
         let incl = this._incl;
         return incl.cups || incl.swords || incl.wands || incl.pentacles;
     }
+
+    /**
+     * true if the major arcana checkbox is checked, false otherwise.
+     */
     get _majorAvailable() {
         return this._incl.major;
     }
+
+    /**
+     * Callback invoked when a row in the range dropdown is clicked. Updates the
+     * selected range.
+     */
     _onRowSelect(e) {
         let row   = e.currentTarget;
         let range = this._range;
@@ -359,6 +392,11 @@ export class CardDeckConfig extends HTMLElement {
             this._selectRangeRows(ord, ord);
         }
     }
+
+    /**
+     * Deselects all rows in the range dropdown list's table. Removes the
+     * 'selected' class from each row element.
+     */
     _clearRangeTable() {
         let range = this._range;
         let rows  = this._rows;
@@ -368,6 +406,14 @@ export class CardDeckConfig extends HTMLElement {
         range.low  = -1;
         range.high = -1;
     }
+
+    /**
+     * Updates the range dropdown list by adding the 'selected' class to the
+     * row elements. The start and end indices are inclusive. Updates
+     * persistent storage OPT_RANGE value.
+     * @param {number} start The start index of the selected range.
+     * @param {number} end   The end index of the selected range.
+     */
     _selectRangeRows(start, end) {
         let low  = Math.min(start, end);
         let high = Math.max(start, end);
@@ -396,6 +442,11 @@ export class CardDeckConfig extends HTMLElement {
 
         storage.data[OPT_RANGE] = this._range;
     }
+
+    /**
+     * Creates the text displayed by the range element. The text is a brief
+     * description of what's selected in the dropdown.
+     */
     _createRangeText() {
         let loTxt = this._getRowText(this._rows[this._range.low ]);
         let hiTxt = this._getRowText(this._rows[this._range.high]);
@@ -405,6 +456,12 @@ export class CardDeckConfig extends HTMLElement {
             return `${loTxt}`;
         }
     }
+
+    /**
+     * Forms the text for either the range's start or end using row elements
+     * to extract info from.
+     * @param {HTMLElement} row The row to extract text from.
+     */
     _getRowText(row) {
         let a = [];
         let ch = row.children;
