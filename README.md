@@ -1,18 +1,17 @@
 
 # Tarot Trainer
 This is a simple flashcard style app to help memorize the meanings of the 
-Rider-Waite-Smith Tarot deck using the meanings presented by one of the original
-authors of that particular deck in his book, *The Pictorial Key to the Tarot,
-A.E. Waite, 1910*. Pamela Coleman Smith produced the artwork for the deck in 
+Rider-Waite-Smith Tarot deck using the descriptions presented by one of the
+original authors of the deck from his book, *The Pictorial Key to the Tarot,
+A.E. Waite, 1910*. Pamela Coleman Smith produced the deck's artwork in 
 collaboration with Waite, and it has remained one of the most popular Tarot 
 decks of all time since.
 
 Many books have been written covering the meanings of each card from many
 different angles, such as their relationship to the Zodiac. This app doesn't
 intend to encompass this larger body of work, but to simply focus on Waite's 
-book. Taking this approach, users of this app will have a good foundation to
-continue learning after mastering the meanings presented by one of the deck's
-original authors.
+book. Mastering this content can establish a solid foundation the user can 
+build on.
 
 ## Building
 This project utilizes the WebPack toolchain to produce a minimized bundle along 
@@ -21,9 +20,10 @@ with other assets.
 * `npm run build`  - Build the webpack bundle, etc. Output to `platforms` 
                      folder.
 * `npm run serve`  - Run the app locally using WebPack's embedded web server.
-* `npm run deploy` - Deploy the bundle and assets to (my) Github Pages.
-                     This can be reconfigured to work with other (your) 
-                     deployment solutions.
+* `npm run deploy` - Deploy the bundle and assets to a Github Pages site.
+                     To use this feature, some setup is required; it makes
+                     use of the 
+                     [gh-pages](https://www.npmjs.com/package/gh-pages) package.
 
 ## Project Structure
 This project follows the default folder structure for a Cordova project;
@@ -39,7 +39,7 @@ project's elements and styling and the Javascript files will contain one
 or more of these Custom Element implementations.
 
 The `www` folder holds the code and assets that implement the application's
-features. The `platforms` is the build output folder where the WebPack
+features. `platforms` is the build output folder where the WebPack
 bundle is placed along with other build assets. The other folders and files
 at the same level are standard Node folders typical for most other Node 
 toolchain based projects.
@@ -48,7 +48,7 @@ The folders under `www` are:
 * `css`     - Contains CSS style documents.
 * `data`    - Data assets such as JSON configuration files.
 * `html`    - HTML pages used by the Javascript custom elements.
-* `img`     - The Tarog card images and others.
+* `img`     - The Tarot card images and others.
 * `js`      - The Javascript files.
 
 ## Progressive Web Apps
