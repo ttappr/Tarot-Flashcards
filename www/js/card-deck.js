@@ -23,6 +23,10 @@ const SUITS_QUASI   = ['Major Arcana', 'Reversals'];
 
 const DATA_FIELDS   = ['suit', 'value', 'ordinal', 'pic', 
                        'descr', 'meaning', 'reverse'];
+                       
+const DEFAULT_RANGE = {low: 0, high: 21};
+const DEFAULT_SUITS = {cups: true, swords: true, wands: true, 
+                       pentacles: true, major: true, reversals: true};
 
 /**
  * Represents a flash card in the deck. Essentially a "data class".
@@ -91,13 +95,13 @@ export class CardDeck extends HTMLElement {
         this._cardNameElm     = query('.card-name',        shadow);
         this._cardMeaningElm  = query('.card-meaning',     shadow);
 
-        this._cards  = [];
-        this._dcards = {};
-        this._rcards = {};
+        this._cards  = []; // List of the cards.
+        this._dcards = {}; // Dict mapping IDs to cards.
+        this._rcards = {}; // Dict mapping IDs to reverse meaning of card.
         this._populateDeck();
 
-        this._filter = {include: storage.data[OPT_INCLUDE], 
-                          range: storage.data[OPT_RANGE  ]};
+        this._filter = {include: storage.data[OPT_INCLUDE] || DEFAULT_SUITS, 
+                          range: storage.data[OPT_RANGE  ] || DEFAULT_RANGE};
 
         this._filteredCardIDs = this._filterIDs();
 
@@ -223,9 +227,8 @@ export class CardDeckConfig extends HTMLElement {
         this._ddown  = query('.range-dropdown', shadow);
         this._table  = query('.range-dropdown-table', shadow);
         
-        this._range  = {low: 0, high: 21};
-        this._incl   = {cups: true, swords: true, wands: true, 
-                        pentacles: true, major: true, reversals: true};
+        this._range  = DEFAULT_RANGE;
+        this._incl   = DEFAULT_SUITS;
 
         let rows     = mquery('tr', this._table);
         let cboxes   = mquery('input[type=checkbox]', shadow);
@@ -247,6 +250,8 @@ export class CardDeckConfig extends HTMLElement {
         this._numCBoxesChecked = 0;
         this._loadOptions();
 
+        // Set up a listener that detects resize events on the document and
+        // text box that shows the range summary.
         let rso = new ResizeObserver(this._rangeDDSizer.bind(this));
         rso.observe(document.body);
         rso.observe(this._text);
@@ -273,6 +278,7 @@ export class CardDeckConfig extends HTMLElement {
     _loadOptions() {
         let include = storage.data[OPT_INCLUDE] || this._incl;
         let range   = storage.data[OPT_RANGE]   || this._range;
+        
         for (let [key, val] of Object.entries(include)) {
             this._cboxes[key].checked = val;
             if (val && key !== 'reversals') {
@@ -324,6 +330,9 @@ export class CardDeckConfig extends HTMLElement {
         let minor = this._minorAvailable;
         let i = 0;
         for (let row of this._rows) {
+            // The 3 child elements are ordinal card value, corresponding minor
+            // card name, corresponding major name; e.g.,
+            // `[12, 'Knight', 'Hanged Man']`
             let [ord, min, maj] = row.children;
             if (major) {
                 maj.classList.remove('not-available');

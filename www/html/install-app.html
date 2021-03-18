@@ -1,0 +1,59 @@
+
+<template>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0; 
+            padding: 0;
+        }
+        .config {
+            /* background-color: red; */
+            display: grid;
+            grid-template-rows: auto auto;
+            grid-template-columns: 100%;
+            grid-gap: 10px;
+            overflow: hidden;
+            height: 100%;
+            font-size: 18px;
+        }
+        .section {
+            /* background-color: yellow; */
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            max-height: 100%;
+            overflow: hidden;
+        }
+        .section-title {
+            /* background-color: green; */
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .section-help-icon {
+            opacity: .5;
+        }
+        .section-controls {
+            /* background-color: blue; */
+            margin: 10px;
+            max-height: 100%;
+            /* overflow: hidden; */
+        }
+    </style>
+    <div class="config">
+        <div class="section">
+            <div class="section-title">
+                <span>Install</span> 
+                <img class="section-help-icon" 
+                     src="./../img/help-black-18dp.svg" />
+            </div>
+            <div class="section-controls">
+                <div>
+                    <p class="install-link">
+                        This is where the install link goes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+

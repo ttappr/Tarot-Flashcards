@@ -36,7 +36,7 @@ class PersistentStorage extends EventTarget {
         let opts = { bubbles : false, 
                      detail  : { key   : key, 
                                  value : value }
-                    };
+                   };
         this.dispatchEvent(new CustomEvent(UPDATE_EVENT_TYPE, opts));
         return true;
     }
