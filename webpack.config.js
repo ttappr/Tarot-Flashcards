@@ -1,7 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {
-    CleanWebpackPlugin
-} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -9,8 +7,8 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 const DEBUG = new Set(['dev', 'serve']).has(process.env.npm_lifecycle_event);
-const PUBLIC_PATH = (DEBUG) ? 'http://localhost:8000/Tarot-Flashcards/' :
-    'https://ttappr.github.io/Tarot-Flashcards/';
+const PUBLIC_PATH = (DEBUG) ? 'http://localhost:8000/Tarot-Flashcards/' 
+                            : 'https://ttappr.github.io/Tarot-Flashcards/';
 
 module.exports = [{
     entry: './www/index.js',

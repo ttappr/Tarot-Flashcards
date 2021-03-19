@@ -12,7 +12,12 @@ export class InstallApp extends HTMLElement {
         this.attachShadow({mode: 'open'});
         let template = separse(html).content.cloneNode(true);
         eappend(this.shadowRoot, template);
+        this._installLink = query(".install-link", this.shadowRoot);
         this._deferredPrompt = null;
+        
+        if (this.displayMode !== 'browser') {
+            this._installLink.textContent = 'Web App has been installed.';
+        }
         
         // https://web.dev/customize-install/
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -28,11 +33,12 @@ export class InstallApp extends HTMLElement {
         });
     }
     _showInstallPromotion() {
-        let link = query('.install-link', this.shadowRoot);
+        let link = this._installLink;
         link.onclick = this._installClickHandler.bind(this);
         console.log('InstallApp._showInstallPromotion() was invoked.');
     }
     _hideInstallPromotion() {
+        this._installLink.textContent = 'Web App has been installed.';
         console.log('InstallApp._hideInstallPromotion() was invoked.');
     }
     async _install() {
