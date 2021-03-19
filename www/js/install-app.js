@@ -15,10 +15,6 @@ export class InstallApp extends HTMLElement {
         this._installLink = query(".install-link", this.shadowRoot);
         this._deferredPrompt = null;
         
-        if (this.displayMode !== 'browser') {
-            this._installLink.textContent = 'Web App has been installed.';
-        }
-        
         // https://web.dev/customize-install/
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -34,11 +30,16 @@ export class InstallApp extends HTMLElement {
     }
     _showInstallPromotion() {
         let link = this._installLink;
+        link.textContent = 'Tap here to install this Web App locally.';
+        link.classList.remove('installed');
         link.onclick = this._installClickHandler.bind(this);
         console.log('InstallApp._showInstallPromotion() was invoked.');
     }
     _hideInstallPromotion() {
-        this._installLink.textContent = 'Web App has been installed.';
+        let link = this._installLink;
+        link.textContent = 'Web App has been installed.';
+        link.classList.add('installed');
+        link.onclick = null;
         console.log('InstallApp._hideInstallPromotion() was invoked.');
     }
     async _install() {

@@ -42,27 +42,36 @@ if (window.matchMedia('(display-mode: standalone)').matches) {
     console.info("Running in standalone mode.");
 }
 
-(async function () {
+(async function() {
     try {
         if ('serviceWorker' in navigator) {
-            let reg = await navigator.serviceWorker.register(
-                                './service-worker.js',
-                                { scope: '/Tarot-Flashcards/' }
-                            );
-            console.log('Service Worker registered successfully. ' +
-                        'Scope is ' + reg.scope);
+            let scriptUrl    = './service-worker.js';
+            let options      = {scope: '/Tarot-Flashcards/'};
+            let registration = await navigator
+                                     .serviceWorker
+                                     .register(scriptUrl, options);
+            console.log(`Service Worker registered successfully. ` +
+                        `Scope is ${registration.scope}`);
         }
     } catch (error) {
-        console.log('Service Worker registration failed: ', error);
+        console.log(`Service Worker registration failed: ${error}`);
     }
 })();
 
-window.addEventListener('orientationchange', function () {
-    var originalBodyStyle = getComputedStyle(document.body)
-                            .getPropertyValue('display');
+window.addEventListener('orientationchange', () => {
+    var origStyle = getComputedStyle(document.body)
+                    .getPropertyValue('display');
+
     document.body.style.display = 'none';
+    
     let _ = document.body.offsetHeight;
-    setTimeout(function () {
-        document.body.style.display = originalBodyStyle;
+    
+    setTimeout(() => {
+        document.body.style.display = origStyle;
     }, 10);
 });
+
+
+
+
+
