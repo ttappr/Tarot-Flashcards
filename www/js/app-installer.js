@@ -1,17 +1,17 @@
 
 import { ecreate, eparse, separse, eappend, query } from  './utils.js';
 
-import html from './../html/install-app.html';
+import html from './../html/app-installer.html';
 
 /**
  * @see file://./../html/install-app.html
  */
-export class InstallApp extends HTMLElement {
+export class AppInstaller extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
-        this._template = separse(html).content.cloneNode(true);
-        eappend(this.shadowRoot, this._template);
+        let template = separse(html).content.cloneNode(true);
+        eappend(this.shadowRoot, template);
         
         this._installLink = query(".install-link", this.shadowRoot);
         this._configBase  = query(".config", this.shadowRoot);
@@ -22,6 +22,12 @@ export class InstallApp extends HTMLElement {
             if (this._isCompletelyVisible) {
                 this._configBase.classList.remove('config-hidden');
             }
+            window.addEventListener('load', () => {
+                let link = this._installLink;
+                if (link.textContent.trim() === 'Web App is loading...') {
+                    link.textContent = 'Web App installed.';
+                }
+            });
             // https://web.dev/customize-install/
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
@@ -42,7 +48,7 @@ export class InstallApp extends HTMLElement {
                 }
             });
             rso.observe(document.body);
-        } 
+        }
     }
     _isBeforeInstallPromptSupported() {
         let winProps = Object.keys(window);
@@ -52,7 +58,7 @@ export class InstallApp extends HTMLElement {
         let link = this._installLink;
         link.textContent = 'Tap here to install this Web App locally.';
         link.classList.remove('installed');
-        link.onclick = this._installClickHandler.bind(this);
+        link.onclick = () => { this._install() };
         console.log('InstallApp._showInstallPromotion() was invoked.');
     }
     _hideInstallPromotion() {
@@ -68,9 +74,6 @@ export class InstallApp extends HTMLElement {
         let { outcome } = await this._deferredPrompt.userChoice;
         console.log(`User install response: ${outcome}`);
         this._deferredPrompt = null;
-    }
-    _installClickHandler(e) {
-        this._install();
     }
     get displayMode() {
         let isStandalone = window.matchMedia('(display-mode: standalone)')
@@ -88,9 +91,9 @@ export class InstallApp extends HTMLElement {
         let doc  = document.documentElement;
         return !((rect.top < 0 || rect.left < 0) ||
                  (rect.bottom > (win.innerHeight || doc.clientHeight)) ||
-                 (rect.right  > (win.innerWidth  || doc.clientWidth)))
+                 (rect.right  > (win.innerWidth  || doc.clientWidth)));
     }
 }
 
-customElements.define('install-app', InstallApp);
+customElements.define('app-installer', AppInstaller);
 

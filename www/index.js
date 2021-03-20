@@ -18,7 +18,7 @@ import './js/nav-bar.js';
 import './js/tab-set.js';
 import './js/card-deck.js';
 import './js/flashcard-coach.js';
-import './js/install-app.js';
+import './js/app-installer.js';
 import './js/app-options.js';
 
 let icon     = ecreate('link', { rel: 'shortcut icon', href: favicon,
