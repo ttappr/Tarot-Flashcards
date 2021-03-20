@@ -22,12 +22,13 @@ export class Coach extends HTMLElement {
         let template = separse(html);
         eappend(shadow, template.content.cloneNode(true));
 
-        this._reveal    = query('#reveal',    shadow);
-        this._next      = query('#next',      shadow);
-        this._progress  = query('#progress',  shadow);
-        this._question  = query('#question',  shadow);
-        this._certainty = query('#certainty', shadow);
-        this._deck      = query('card-deck',  this);
+        this._reveal    = query('#reveal',               shadow);
+        this._next      = query('#next',                 shadow);
+        this._progress  = query('#progress-current-set', shadow);
+        this._overall   = query('#progress-overall',     shadow);
+        this._question  = query('#question',             shadow);
+        this._certainty = query('#certainty',            shadow);
+        this._deck      = query('card-deck',             this);
 
         this._reveal.onclick    = this._onReveal.bind(this);
         this._next.onclick      = this._onNext.bind(this);
@@ -68,6 +69,7 @@ export class Coach extends HTMLElement {
         // Set the certainty score to the newly chosen card.
         this._certainty.value = this._certaintyDict[id];
         this._progress.value  = this._getSubsetProgress();
+        this._overall.value   = this._getOverallProgress();
         
         //this._question.style.visibility = 'visible';
         this._question.textContent = 'What is the meaning of this card?';

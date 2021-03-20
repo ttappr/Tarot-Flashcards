@@ -90,6 +90,11 @@
             /* subclass of controls__range */
             overflow: hidden;
         }
+        
+        .controls__range-progress-current-set {
+            height: 50%;
+            margin-bottom: 2px;
+        }
 
         .controls__button {
             padding: 1em 1.5em;
@@ -222,8 +227,13 @@
                 <span class="controls__range-label">Initiate</span>
                 <div class="controls__range-host">
                     <progress class="controls__range 
+                                    controls__range-progress
+                                    controls__range-progress-current-set" 
+                            id="progress-current-set" 
+                            value="32" max="100">32%</progress>
+                    <progress class="controls__range 
                                     controls__range-progress" 
-                            id="progress" 
+                            id="progress-overall" 
                             value="32" max="100">32%</progress>
                 </div>                        
                 <span class="controls__range-label">Sage</span>
