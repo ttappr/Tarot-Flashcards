@@ -87,8 +87,8 @@ export class AppInstaller extends HTMLElement {
     }
     get _isCompletelyVisible() {
         let rect = this._configBase.getBoundingClientRect();
-        let win  = window;
         let doc  = document.documentElement;
+        let win  = window;
         return !((rect.top < 0 || rect.left < 0) ||
                  (rect.bottom > (win.innerHeight || doc.clientHeight)) ||
                  (rect.right  > (win.innerWidth  || doc.clientWidth)));

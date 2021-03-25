@@ -1,0 +1,104 @@
+<template>
+    <style>
+
+        :root {
+            --primary-color: green;
+            --secondary-color: black;
+
+            /* Outer scope defines these using rem and overrides these. */
+            --ctrl-font-size: 1em;
+            --info-font-size: 1em;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;            
+        }
+        
+        .main {
+            margin: 20px;
+            display: grid;
+            grid-template-rows: 10px 55% auto;
+            grid-template-columns: 100%;
+            grid-gap: 10px;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: calc(var(--info-font-size) * 1.15);
+            font-weight: bold;
+        }
+        
+        .card-host {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            max-height: 500px;
+            /* margin: 10px; */
+        }
+        
+        .card-host img {
+            object-fit: contain;
+            height: 95%;
+            width: auto;
+            outline: 2px solid black;
+            box-shadow: 5px 5px 6px #888888;
+            max-height: 500px;
+        }
+        
+        .card-meaning-host {
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            /* background-color: red; */
+        }
+        
+        .card-meaning {
+            font-size: var(--info-font-size);
+            max-width: 600px;
+        }
+        
+        @media (max-height: 580px) and (min-width: 400px) {
+        
+            .main {
+                margin: 10px;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 10px calc(90% - 20px);
+            }
+            
+            .card-host {
+                grid-column: 1;
+                grid-row: 1 / span 2;
+                
+            }
+            
+            .title {
+                grid-column: 2;
+                text-align: left;
+            }
+            
+            .card-meaning-host {
+                grid-column: 2;
+                padding-top: 10px;
+            }
+        }
+        
+    </style>
+    <div class="main">
+        <div class="title"></div>
+        <div class="card-host">
+            <!-- <img> goes here. -->
+        </div>
+        <div class="card-meaning-host">
+            <p class="card-meaning"></p>
+        </div>
+    </div>
+</template>
+

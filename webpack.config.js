@@ -63,6 +63,17 @@ module.exports = [{
                 test: /\.html$/i,
                 loader: 'html-loader',
             },
+            {
+                test: /\.(ttf)$/i,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'font/',
+                        esModule: false,
+                    },
+                },
+            },
         ]
     },
     plugins: [

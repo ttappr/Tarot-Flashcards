@@ -58,6 +58,19 @@
         .topnav .icon {
             display: none;
         }
+        
+        .arrow-host {
+            display: none;
+        }
+
+        .arrow-left {
+          width: 0; 
+          height: 0; 
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent; 
+          border-right: 10px solid var(--primary-color); 
+        }
+        
         @media screen and (max-width: 600px) {
             .topnav:not(.responsive) ::slotted(*:not(.active)) {
                 display: none;
@@ -82,10 +95,18 @@
                 display: block;
                 text-align: left;
             }
+            .arrow-host--visible {
+                display: inline;
+            }
         }
+        .topnav.responsive .arrow-host {
+            display: none;
+        }
+
     </style>
 
     <div class="topnav" id="topnav">
+        <span class="arrow-host"><div class="arrow-left"></div></span>
         <slot></slot>
         <span class="icon" id="menu">☰</span>
     </div>

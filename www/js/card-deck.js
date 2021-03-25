@@ -68,8 +68,66 @@ export class Card {
             }
         }
     }
+    clone() {
+        let c = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+        c._image = this._image.cloneNode();
+        return c;
+    }
 }
 
+/**
+ * StaticDeck is the internal deck used by CardDeck and other classes that
+ * need access to the Card objects which hold their Image's and information 
+ * about the cards.
+ */
+export var StaticDeck = {
+
+    _initialized : false, 
+
+    _cards  : [], // List of cards.
+    _dcards : {}, // Dict mapping IDs to cards.
+    _rcards : {}, // Dict mapping IDs to reverse meanings.
+
+    /**
+     * If the _CARDS object variables haven't been initialized yet, this will
+     * populate them.
+     */
+    populateDeck: function() {
+        if (!this._initialized) {
+            console.info("Initializing card deck.");
+            for (let record of cardData) {
+                let card = new Card(record);
+                this._dcards[card.id] = card;
+                this._rcards[card.id + '_reversed'] = card;
+                this._cards.push(card);
+            }
+            this._initialized = true;
+        }
+    },
+    get cards() {
+        return [...this._cards];
+    },
+    get cardIDs() {
+        return Object.keys(this._dcards).concat(Object.keys(this._rcards));
+    },
+    getCardByID: function(id) {
+        let card = this._dcards[id];
+        if (card) {
+            card = card.clone();
+            card.reversed = false;
+        } else {
+            card = this._rcards[id].clone();
+            card.reversed = true;
+        }
+        return card;
+    },
+};
+
+/**
+ * Initialize the static deck.
+ */
+StaticDeck.populateDeck();
+        
 /**
  * Implements the visible HTML elements for the flash card deck. The layout
  * is designed to be responsive - to adapt to the size of the user's screen.
@@ -95,29 +153,12 @@ export class CardDeck extends HTMLElement {
         this._cardNameElm     = query('.card-name',        shadow);
         this._cardMeaningElm  = query('.card-meaning',     shadow);
 
-        this._cards  = []; // List of the cards.
-        this._dcards = {}; // Dict mapping IDs to cards.
-        this._rcards = {}; // Dict mapping IDs to reverse meaning of card.
-        this._populateDeck();
-
         this._filter = {include: storage.data[OPT_INCLUDE] || DEFAULT_SUITS, 
                           range: storage.data[OPT_RANGE  ] || DEFAULT_RANGE};
 
         this._filteredCardIDs = this._filterIDs();
 
         this.dispatchEvent(new CustomEvent('initialized', { detail: null }));
-    }
-    /**
-     * Populates the deck using the JSON file for card data.
-     */
-    _populateDeck() {
-        for (let record of cardData) {
-            let card = new Card(record);
-
-            this._dcards[card.id] = card;
-            this._rcards[card.id + '_reversed'] = card;
-            this._cards.push(card);
-        }
     }
 
     /**
@@ -146,7 +187,7 @@ export class CardDeck extends HTMLElement {
      * @param {string} id The ID of the card to show.
      */
     showCard(id) {
-        let card   = this._getCardByID(id);
+        let card   = StaticDeck.getCardByID(id);
         let img    = card.image;
 
         cappend(this._cardFaceHostElm, img);
@@ -167,25 +208,10 @@ export class CardDeck extends HTMLElement {
      * @returns {Card[]} The cards.
      */
     get cards() {
-        return [...this._cards];
-    }
-    /**
-     * Returns the Card that has the given ID.
-     * @param {string} id The ID of the card to retrieve.
-     * @returns {Card} The card.
-     */
-    _getCardByID(id) {
-        let card = this._dcards[id];
-        if (card) {
-            card.reversed = false;
-        } else {
-            card = this._rcards[id];
-            card.reversed = true;
-        }
-        return card;
+        return StaticDeck.cards;
     }
     get cardIDs() {
-        return Object.keys(this._dcards).concat(Object.keys(this._rcards));
+        return StaticDeck.cardIDs;
     }
     get filteredCardIDs() {
         return this._filteredCardIDs;
@@ -194,7 +220,7 @@ export class CardDeck extends HTMLElement {
         let ids   = [];
         let range = this._filter.range;
         let incl  = this._filter.include;
-        for (let card of this._cards) {
+        for (let card of StaticDeck._cards) {
             let suit = card.suit.toLowerCase().split(' ')[0];
             let ord  = card.ordinal;
             if ((range === null || (range.low <= ord && ord <= range.high)) &&

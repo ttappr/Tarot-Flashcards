@@ -18,6 +18,7 @@ import './js/nav-bar.js';
 import './js/tab-set.js';
 import './js/card-deck.js';
 import './js/flashcard-coach.js';
+import './js/daily-card.js';
 import './js/app-installer.js';
 import './js/app-options.js';
 
@@ -38,6 +39,13 @@ query('nav-bar').onclick = (e) => {
     }
 };
 
+// TODO - Remove this.
+/*
+document.querySelector('nav-bar')
+        .querySelector('[data-tab-name="card-of-day"]')
+        .click()
+*/
+
 if (window.matchMedia('(display-mode: standalone)').matches) {
     console.info("Running in standalone mode.");
 }
@@ -50,6 +58,7 @@ if (window.matchMedia('(display-mode: standalone)').matches) {
             let registration = await navigator
                                      .serviceWorker
                                      .register(scriptUrl, options);
+            
             console.log(`Service Worker registered successfully. ` +
                         `Scope is ${registration.scope}`);
         }
@@ -59,15 +68,15 @@ if (window.matchMedia('(display-mode: standalone)').matches) {
 })();
 
 window.addEventListener('orientationchange', () => {
-    var origStyle = getComputedStyle(document.body)
-                    .getPropertyValue('display');
+    var originalStyle = getComputedStyle(document.body)
+                        .getPropertyValue('display');
 
     document.body.style.display = 'none';
     
     let _ = document.body.offsetHeight;
     
     setTimeout(() => {
-        document.body.style.display = origStyle;
+        document.body.style.display = originalStyle;
     }, 10);
 });
 

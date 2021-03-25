@@ -29,6 +29,7 @@
         }
         .section-title {
             /* background-color: green; */
+            /* position: relative; for the absolute positioned element */
             margin-top: 10px;
             margin-bottom: 10px;
         }
@@ -49,13 +50,41 @@
             color: inherit;
             cursor: default;
         }
+        
+        .help-bubble {
+            display: none;
+            background: white;
+            position: absolute;
+            /* bottom: calc(45%); */
+            transform: translate(0, -50%);
+            border: 1px solid black;
+            padding: 3px;
+            max-width: 350px;
+            border-radius: .5em;
+            margin: 5px;
+            box-shadow: 2px 2px 6px #888888;
+            z-index: 1;
+        }
+        
+        .section-help-icon:focus + .help-bubble {
+            display: inline;
+        }
+        
     </style>
     <div class="config config-hidden">
         <div class="section">
             <div class="section-title">
                 <span>Install</span> 
                 <img class="section-help-icon" 
-                     src="./../img/help-black-18dp.svg" />
+                     src="./../img/help-black-18dp.svg"
+                     tabindex="0" />
+                <div class="help-bubble">
+                    Installing the app to your device enables it to run in
+                    standalone mode with an improved user experience. The
+                    app is safe to install and doesn't access any features of
+                    the device not explicitly granted by the user. It takes up
+                    only a tiny amount memory.
+                </div>
             </div>
             <div class="section-controls">
                 <div>

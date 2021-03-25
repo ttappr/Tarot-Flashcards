@@ -249,13 +249,38 @@
             }
         }
  
+        .help-bubble {
+            display: none;
+            background: white;
+            position: absolute;
+            border: 1px solid black;
+            padding: 3px;
+            max-width: 350px;
+            border-radius: .5em;
+            margin: 5px;
+            box-shadow: 2px 2px 6px #888888;
+            z-index: 1;
+        }
+        
+        .section-help-icon:focus + .help-bubble {
+            display: inline;
+        }
+        
     </style>
     <div class="config">
         <div class="section include-section">
             <div class="section-title">
                 <span>Include</span> 
                 <img class="section-help-icon" 
-                     src="./../img/help-black-18dp.svg" />
+                     src="./../img/help-black-18dp.svg"
+                     tabindex="0" />
+                <div class="help-bubble">
+                    Select the suits to include in the set of cards to be 
+                    quizzed on. The Major Arcana includes cards Fool to World,
+                    and the Minor Arcana are the suits Cups, Swords, Wands,
+                    and Pentacles which each include cards Ace to King.
+                    Reversals are cards in the upside down position.
+                </div>
             </div>
             <div class="section-controls
                         section-controls-suits">
@@ -292,7 +317,16 @@
         <div class="section range-section">
             <div class="section-title">
                 <span>Card Range</span>
-                <img class="section-help-icon" src="./../img/help-black-18dp.svg" />
+                <img class="section-help-icon" 
+                     src="./../img/help-black-18dp.svg" 
+                     tabindex="0" />
+                <div class="help-bubble">
+                    Select the range of cards in the quiz set. Either Major
+                    Arcana (Fool to World) or the Minor Arcana (Ace to King) may
+                    be grayed out depending on whether Major Arcana or any of
+                    the Minor Arcana suits (Cups, Swords, etc.) are 
+                    selected above.
+                </div>                
             </div>
             <div class="section-controls section-controls-range">
                 <div class="range-value" tabindex="0"></div>

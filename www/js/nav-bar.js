@@ -25,10 +25,16 @@ export class NavBar extends HTMLElement {
 
         let menu        = query('#menu',   shadow);
         let slotted     = query('slot',    shadow).assignedElements();
+        this._arrow     = query('.arrow-host', shadow);
+        this._home      = slotted[0];
         this._topNav    = query('#topnav', shadow);
         this._activeElm = null;
 
         menu.onclick    = this._menuClick.bind(this);
+        
+        this._arrow.onclick = () => {
+            this._home.click();
+        }
 
         for (let elm of slotted) {
             elm.addEventListener('click', this._elmClick.bind(this));
@@ -55,6 +61,11 @@ export class NavBar extends HTMLElement {
         this._activeElm.classList.remove('active');
         this._activeElm = e.target;
         this._activeElm.classList.add('active');
+        if (e.target === this._home) {
+            this._arrow.classList.remove('arrow-host--visible');
+        } else {
+            this._arrow.classList.add('arrow-host--visible');
+        }
         this._topNav.classList.remove('responsive');
     }
 }

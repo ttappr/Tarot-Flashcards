@@ -11,7 +11,7 @@ html {
     font-size: 20px;
 
     --ctrl-font-size: .85rem;
-    --info-font-size: .85rem;
+    --info-font-size: .95rem;
 
     --ctrl-padding: .65em; /* Arbitrary values - need to find real ones. */
     --ctrl-margin: .55em;
@@ -28,6 +28,15 @@ body {
     /* --primary-color-ripple: rgb(209, 165, 184); */
 
     background-color: #fffcf5;
+}
+
+@font-face {
+    font-family: IMFellGreatPrimer;
+    src: url(../font/IMFellGreatPrimerSC-Regular.ttf);
+}
+
+html * {
+    font-family: IMFellGreatPrimer;
 }
 
 /*  [[ Notes ]]
