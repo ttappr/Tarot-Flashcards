@@ -1,7 +1,10 @@
 import storage          from './persistent-storage.js';
 import html             from './../html/daily-card.html';
-import {eappend, 
+import {eappend,
+        addclass, 
+        chclear,
         query, 
+        rmclass,
         separse}        from './utils';
         
 import {StaticDeck}     from './card-deck.js';
@@ -34,8 +37,6 @@ export class DailyCard extends HTMLElement {
         this._card      = query('.card-host', shadow);
         this._meaning   = query('.card-meaning', shadow);
         
-        let card = this._getDailyCard();
-        
         this._setDailyCard();
         this._setCardTimer();
     }
@@ -46,11 +47,18 @@ export class DailyCard extends HTMLElement {
      * current daily new card is set.
      */
     _setDailyCard() {
-        this._card.removeChild(this._card.firstChild);
+        chclear(this._card);
+        
         let card = this._getDailyCard();
         this._title.textContent = card.name;
         this._card.appendChild(card.image);
         this._meaning.innerHTML = card.meaning;
+        
+        if (card.reversed) {
+            addclass(this._card, 'card-host--reversed');
+        } else {
+            rmclass(this._card, 'card-host--reversed');
+        }
     }
     
     /**
@@ -93,9 +101,9 @@ export class DailyCard extends HTMLElement {
      * Randomly selects and returns a new card of the day.
      */
     _chooseNewCard() {
-        let cards    = StaticDeck.cards;
-        let rand_idx = Math.floor(Math.random() * cards.length);
-        return cards[rand_idx];
+        let card_ids = StaticDeck.cardIDs;
+        let rand_idx = Math.floor(Math.random() * card_ids.length);
+        return StaticDeck.getCardByID(card_ids[rand_idx]);
     }
     
     /**

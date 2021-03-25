@@ -104,12 +104,30 @@ export var StaticDeck = {
             this._initialized = true;
         }
     },
+    
+    /**
+     * The array of cards. These are all in the upright position. To get a
+     * list of all possible cards upright or reversed, use .cardIDs() to get
+     * a list that can be randomly picked from and use the chosen ID with
+     * .getCardByID() to access the card in whichever orientation was randomly
+     * picked.
+     */
     get cards() {
         return [...this._cards];
     },
+    
+    /**
+     * A listing of all the available card IDs, including reversals.
+     */
     get cardIDs() {
         return Object.keys(this._dcards).concat(Object.keys(this._rcards));
     },
+    
+    /**
+     * Returns the card in the proper orientation (reversed/not-reversed) given
+     * the ID. NOTE: The image returned by the card property .image will need
+     * to be rotated via CSS.
+     */
     getCardByID: function(id) {
         let card = this._dcards[id];
         if (card) {
@@ -118,6 +136,7 @@ export var StaticDeck = {
         } else {
             card = this._rcards[id].clone();
             card.reversed = true;
+            card._id = card._id + '_reversed';
         }
         return card;
     },
