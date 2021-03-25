@@ -14,6 +14,12 @@ const STOR_CURRENT_DATE = 'dailycard:date';
  * @see file://./../html/daily-card.html
  */
 export class DailyCard extends HTMLElement {
+
+    /**
+     * Sets up the custom element's content. The current card of the day, or
+     * a new one (if the day has changed), is presented to the user. A timer
+     * is also set to change the card at midnight.
+     */
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
@@ -33,45 +39,70 @@ export class DailyCard extends HTMLElement {
         this._setDailyCard();
         this._setCardTimer();
     }
-    _getDailyCard() {
-        if (this._isNewDay()) {
-            let new_card = this._chooseNewCard();
-            this._storeCardData(this._getDate(), new_card);
-            return new_card;
-        } else {
-            let card_id = storage.data[STOR_DAILY_CARD];
-            return StaticDeck.getCardByID(card_id);
-        }
-    }
+    
+    /**
+     * Updates the page elements and sets the daily card image, title, 
+     * and meaning. If there's already an image set - it is removed and the
+     * current daily new card is set.
+     */
     _setDailyCard() {
         this._card.removeChild(this._card.firstChild);
         let card = this._getDailyCard();
         this._title.textContent = card.name;
         this._card.appendChild(card.image);
-        this._meaning.textContent = card.meaning;
+        this._meaning.innerHTML = card.meaning;
     }
-    _isNewDay() {
-        return storage.data[STOR_CURRENT_DATE] !== this._getDate();
-    }
-    _chooseNewCard() {
-        let cards       = StaticDeck.cards;
-        let rand_idx    = Math.floor(Math.random() * cards.length);
-        return cards[rand_idx];
-    }
-    _getDate() {
-        return new Date().toLocaleDateString("en-US");
-    }
-    _storeCardData(date, card) {
-        storage.data[STOR_CURRENT_DATE] = date;
-        storage.data[STOR_DAILY_CARD] = card.id;
-    }
+    
+    /**
+     * Sets up a timer to change the daily card at midnight.
+     */
     _setCardTimer() {
         let now = new Date();
         let tmw = new Date(now.getUTCFullYear(), 
                            now.getMonth(), 
                            now.getDate(), 
                            23, 59, 59);
-        setTimeout(()=>{ this._setDailyCard() }, tmw - now + 2000);
+        setTimeout(() => { this._setDailyCard() }, tmw - now + 2000);
+    }
+    
+    /**
+     * Returns the previously selected daily card, or chooses a new one if the
+     * day has changed since the last selection.
+     */
+    _getDailyCard() {
+        if (this._isNewDay()) {
+            let new_card = this._chooseNewCard();
+            storage.data[STOR_CURRENT_DATE] = this._getDate();
+            storage.data[STOR_DAILY_CARD  ] = new_card.id;
+            return new_card;
+        } else {
+            let card_id = storage.data[STOR_DAILY_CARD];
+            return StaticDeck.getCardByID(card_id);
+        }
+    }
+    
+    /**
+     * Since the last daily card was picked, has the day changed? Returns true
+     * if the day has changed and a new card needs to be drawn.
+     */
+    _isNewDay() {
+        return storage.data[STOR_CURRENT_DATE] !== this._getDate();
+    }
+    
+    /**
+     * Randomly selects and returns a new card of the day.
+     */
+    _chooseNewCard() {
+        let cards    = StaticDeck.cards;
+        let rand_idx = Math.floor(Math.random() * cards.length);
+        return cards[rand_idx];
+    }
+    
+    /**
+     * Returns the current date as a string.
+     */
+    _getDate() {
+        return new Date().toLocaleDateString("en-US");
     }
 }
 
