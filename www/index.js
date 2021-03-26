@@ -39,13 +39,6 @@ query('nav-bar').onclick = (e) => {
     }
 };
 
-// TODO - Remove this.
-/*
-document.querySelector('nav-bar')
-        .querySelector('[data-tab-name="card-of-day"]')
-        .click()
-*/
-
 if (window.matchMedia('(display-mode: standalone)').matches) {
     console.info("Running in standalone mode.");
 }

@@ -1,3 +1,4 @@
+
 import storage          from './persistent-storage.js';
 import html             from './../html/daily-card.html';
 import {eappend,
@@ -79,7 +80,11 @@ export class DailyCard extends HTMLElement {
      */
     _getDailyCard() {
         if (this._isNewDay()) {
-            let new_card = this._chooseNewCard();
+            let last_card_id = storage.data[STOR_DAILY_CARD];
+            let new_card     = null;
+            do {
+                new_card = this._chooseNewCard();
+            } while (new_card.id === last_card_id);
             storage.data[STOR_CURRENT_DATE] = this._getDate();
             storage.data[STOR_DAILY_CARD  ] = new_card.id;
             return new_card;
